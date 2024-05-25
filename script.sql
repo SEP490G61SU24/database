@@ -5,6 +5,7 @@ CREATE TABLE Users (
     Password VARCHAR(255) NOT NULL,
     Email VARCHAR(100) NOT NULL,
     PhoneNumber VARCHAR(15),
+    Address VARCHAR(1000),
     DateOfBirth DATE,
     DateRegistered TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
