@@ -60,7 +60,6 @@ CREATE TABLE Services (
     ServiceName VARCHAR(100),
     Description TEXT,
     Price DECIMAL(10, 2),
-    Duration INT,
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
 
@@ -99,6 +98,7 @@ CREATE TABLE Employees (
     PhoneNumber VARCHAR(15),
     Email VARCHAR(100),
     Position VARCHAR(50),
+    IDCardNumber VARCHAR(50),
     Salary DECIMAL(10, 2),
     FOREIGN KEY (EmployeeID) REFERENCES Users(UserID),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
@@ -109,13 +109,17 @@ CREATE TABLE ServiceCards (
     ServiceCardID INT PRIMARY KEY AUTO_INCREMENT,
     SpaID INT,
     ServiceID INT,
+    TotalTreatment INT,
     CustomerID INT,
-    PurchaseDate DATE,
+    Price DECIMAL(10, 2),
+    Discount,
+    PaymentCode INT,
     ExpiryDate DATE,
     Status VARCHAR(50),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID),
     FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID),
-    FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
+    FOREIGN KEY (CustomerID) REFERENCES Users(UserID),
+    FOREIGN KEY (PaymentCode) REFERENCES Transactions(TransactionID)
 );
 
 -- Sales Table
