@@ -1,50 +1,67 @@
+﻿create database SpaProject
+GO
+use SpaProject
+GO
 -- Users Table
 CREATE TABLE Users (
-    UserID INT PRIMARY KEY AUTO_INCREMENT,
-    Username VARCHAR(50) NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    Email VARCHAR(100) NOT NULL,
-    PhoneNumber VARCHAR(15),
-    Address VARCHAR(10000),
+    UserID INT PRIMARY KEY IDENTITY(1,1),
+    Username NVARCHAR(50) NOT NULL,
+    Password NVARCHAR(255) NOT NULL,
+    Email NVARCHAR(100) NOT NULL,
+    PhoneNumber NVARCHAR(15),
+    Address NVARCHAR(1000),
     DateOfBirth DATE,
-    DateRegistered TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    DateRegistered DATETIME DEFAULT GETDATE()
 );
+GO
 
 -- Spas Table
 CREATE TABLE Spas (
-    SpaID INT PRIMARY KEY AUTO_INCREMENT,
-    SpaName VARCHAR(100) NOT NULL,
-    Location VARCHAR(255),
-    PhoneNumber VARCHAR(15),
-    Email VARCHAR(100),
+    SpaID INT PRIMARY KEY IDENTITY(1,1),
+    SpaName NVARCHAR(100) NOT NULL,
+    Location NVARCHAR(255),
+    PhoneNumber NVARCHAR(15),
+    Email NVARCHAR(100),
     ManagerID INT,
     FOREIGN KEY (ManagerID) REFERENCES Users(UserID)
 );
-
+GO
+-- Rooms Table
+CREATE TABLE Rooms (
+    RoomID INT PRIMARY KEY IDENTITY(1,1),
+    SpaID INT,
+    RoomName NVARCHAR(100),
+    Status NVARCHAR(50),
+    FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
+);
+GO
 -- Roles Table
 CREATE TABLE Roles (
-    RoleID INT PRIMARY KEY AUTO_INCREMENT,
-    RoleName VARCHAR(50) NOT NULL
+    RoleID INT PRIMARY KEY IDENTITY(1,1),
+    RoleName NVARCHAR(50) NOT NULL
 );
+GO
 
 -- Permissions Table
 CREATE TABLE Permissions (
-    PermissionID INT PRIMARY KEY AUTO_INCREMENT,
-    PermissionName VARCHAR(100) NOT NULL
+    PermissionID INT PRIMARY KEY IDENTITY(1,1),
+    PermissionName NVARCHAR(100) NOT NULL
 );
+GO
 
 -- RolePermissions Table
 CREATE TABLE RolePermissions (
-    RolePermissionID INT PRIMARY KEY AUTO_INCREMENT,
+    RolePermissionID INT PRIMARY KEY IDENTITY(1,1),
     RoleID INT,
     PermissionID INT,
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID),
     FOREIGN KEY (PermissionID) REFERENCES Permissions(PermissionID)
 );
+GO
 
 -- UserRoles Table
 CREATE TABLE UserRoles (
-    UserRoleID INT PRIMARY KEY AUTO_INCREMENT,
+    UserRoleID INT PRIMARY KEY IDENTITY(1,1),
     UserID INT,
     SpaID INT,
     RoleID INT,
@@ -52,21 +69,25 @@ CREATE TABLE UserRoles (
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID),
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 );
+GO
 
 -- Services Table
 CREATE TABLE Services (
-    ServiceID INT PRIMARY KEY AUTO_INCREMENT,
+    ServiceID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
-    ServiceName VARCHAR(100),
-    Description TEXT,
+    ServiceName NVARCHAR(100),
+    Description NVARCHAR(MAX),
     Price DECIMAL(10, 2),
+    Duration INT,
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
+GO
 
 -- Appointments Table
 CREATE TABLE Appointments (
-    AppointmentID INT PRIMARY KEY AUTO_INCREMENT,
+    AppointmentID INT PRIMARY KEY,
     SpaID INT,
+	RoomID INT, 
     CustomerID INT,
     EmployeeID INT,
     ServiceID INT,
@@ -74,80 +95,99 @@ CREATE TABLE Appointments (
     AppointmentTime TIME,
     Status VARCHAR(50),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID),
+	FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID), 
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID),
     FOREIGN KEY (EmployeeID) REFERENCES Users(UserID),
     FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID)
 );
+GO
 
 -- Customers Table
 CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY,
-    FullName VARCHAR(100) NOT NULL,
-    PhoneNumber VARCHAR(15),
-    Email VARCHAR(100),
-    Address VARCHAR(255),
+    FullName NVARCHAR(100) NOT NULL,
+    PhoneNumber NVARCHAR(15),
+    Email NVARCHAR(100),
+    Address NVARCHAR(255),
     DateOfBirth DATE,
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
 );
+GO
 
 -- Employees Table
 CREATE TABLE Employees (
     EmployeeID INT PRIMARY KEY,
     SpaID INT,
-    FullName VARCHAR(100) NOT NULL,
-    PhoneNumber VARCHAR(15),
-    Email VARCHAR(100),
-    Position VARCHAR(50),
-    IDCardNumber VARCHAR(50),
+    FullName NVARCHAR(100) NOT NULL,
+    PhoneNumber NVARCHAR(15),
+    Email NVARCHAR(100),
+    Position NVARCHAR(50),
     Salary DECIMAL(10, 2),
     FOREIGN KEY (EmployeeID) REFERENCES Users(UserID),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
+GO
 
 -- ServiceCards Table
 CREATE TABLE ServiceCards (
-    ServiceCardID INT PRIMARY KEY AUTO_INCREMENT,
+    ServiceCardID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
     ServiceID INT,
-    TotalTreatment INT,
     CustomerID INT,
-    Price DECIMAL(10, 2),
-    Discount,
-    PaymentCode INT,
+    PurchaseDate DATE,
     ExpiryDate DATE,
-    Status VARCHAR(50),
+    Status NVARCHAR(50),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID),
     FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID),
-    FOREIGN KEY (CustomerID) REFERENCES Users(UserID),
-    FOREIGN KEY (PaymentCode) REFERENCES Transactions(TransactionID)
+    FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
 );
+GO
 
 -- Sales Table
 CREATE TABLE Sales (
-    SaleID INT PRIMARY KEY AUTO_INCREMENT,
+    SaleID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
     CustomerID INT,
     SaleDate DATE,
     TotalAmount DECIMAL(10, 2),
-    PaymentStatus VARCHAR(50),
+    PaymentStatus NVARCHAR(50),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID),
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
 );
+GO
 
 -- Products Table
 CREATE TABLE Products (
-    ProductID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
-    ProductName VARCHAR(100),
-    Description TEXT,
+    ProductName NVARCHAR(100),
+    Description NVARCHAR(MAX),
     Price DECIMAL(10, 2),
     QuantityInStock INT,
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
+GO
+
+-- Category Table
+CREATE TABLE Category (
+    CategoryID INT PRIMARY KEY IDENTITY(1,1),
+    CategoryName NVARCHAR(100) NOT NULL
+);
+GO
+
+-- ProductCategories Table
+CREATE TABLE ProductCategories (
+    ProductID INT,
+    CategoryID INT,
+    PRIMARY KEY (ProductID, CategoryID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
+);
+GO
 
 -- SaleItems Table
 CREATE TABLE SaleItems (
-    SaleItemID INT PRIMARY KEY AUTO_INCREMENT,
+    SaleItemID INT PRIMARY KEY IDENTITY(1,1),
     SaleID INT,
     ProductID INT,
     Quantity INT,
@@ -156,10 +196,11 @@ CREATE TABLE SaleItems (
     FOREIGN KEY (SaleID) REFERENCES Sales(SaleID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
+GO
 
 -- Salaries Table
 CREATE TABLE Salaries (
-    SalaryID INT PRIMARY KEY AUTO_INCREMENT,
+    SalaryID INT PRIMARY KEY IDENTITY(1,1),
     EmployeeID INT,
     BaseSalary DECIMAL(10, 2),
     OvertimeHours INT,
@@ -168,131 +209,134 @@ CREATE TABLE Salaries (
     SalaryYear INT,
     FOREIGN KEY (EmployeeID) REFERENCES Users(UserID)
 );
+GO
 
 -- WorkSchedules Table
 CREATE TABLE WorkSchedules (
-    WorkScheduleID INT PRIMARY KEY AUTO_INCREMENT,
+    WorkScheduleID INT PRIMARY KEY IDENTITY(1,1),
     EmployeeID INT,
     StartDate DATE,
     EndDate DATE,
-    DayOfWeek VARCHAR(20),
+    DayOfWeek NVARCHAR(20),
     StartTime TIME,
     EndTime TIME,
     FOREIGN KEY (EmployeeID) REFERENCES Users(UserID)
 );
+GO
 
 -- Transactions Table
 CREATE TABLE Transactions (
-    TransactionID INT PRIMARY KEY AUTO_INCREMENT,
+    TransactionID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
     CustomerID INT,
     TransactionDate DATE,
     Amount DECIMAL(10, 2),
-    TransactionType VARCHAR(50),
-    Description TEXT,
+    TransactionType NVARCHAR(50),
+    Description NVARCHAR(MAX),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID),
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
 );
+GO
 
 -- Promotions Table
 CREATE TABLE Promotions (
-    PromotionID INT PRIMARY KEY AUTO_INCREMENT,
+    PromotionID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
-    PromotionName VARCHAR(100),
+    PromotionName NVARCHAR(100),
     StartDate DATE,
     EndDate DATE,
-    Description TEXT,
+    Description NVARCHAR(MAX),
     DiscountPercentage DECIMAL(5, 2),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
+GO
 
 -- Assets Table
 CREATE TABLE Assets (
-    AssetID INT PRIMARY KEY AUTO_INCREMENT,
+    AssetID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
-    AssetName VARCHAR(100),
+    AssetName NVARCHAR(100),
     PurchaseDate DATE,
     Value DECIMAL(10, 2),
-    Status VARCHAR(50),
-    Description TEXT,
+    Status NVARCHAR(50),
+    Description NVARCHAR(MAX),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
+GO
 
 -- Reviews Table
 CREATE TABLE Reviews (
-    ReviewID INT PRIMARY KEY AUTO_INCREMENT,
+    ReviewID INT PRIMARY KEY IDENTITY(1,1),
     CustomerID INT,
     ServiceID INT,
     Rating INT CHECK (Rating BETWEEN 1 AND 5),
-    Comment TEXT,
+    Comment NVARCHAR(MAX),
     ReviewDate DATE,
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID),
     FOREIGN KEY (ServiceID) REFERENCES Services(ServiceID)
 );
+GO
 
 -- Notifications Table
 CREATE TABLE Notifications (
-    NotificationID INT PRIMARY KEY AUTO_INCREMENT,
+    NotificationID INT PRIMARY KEY IDENTITY(1,1),
     UserID INT,
-    Message TEXT,
-    IsRead BOOLEAN,
-    NotificationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Message NVARCHAR(MAX),
+    IsRead BIT,
+    NotificationDate DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+GO
 
--- Rooms Table
-CREATE TABLE Rooms (
-    RoomID INT PRIMARY KEY AUTO_INCREMENT,
-    SpaID INT,
-    RoomName VARCHAR(100),
-    Status VARCHAR(50),
-    FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
-);
 
 -- Beds Table
 CREATE TABLE Beds (
-    BedID INT PRIMARY KEY AUTO_INCREMENT,
+    BedID INT PRIMARY KEY IDENTITY(1,1),
     RoomID INT,
-    BedName VARCHAR(100),
-    Status VARCHAR(50),
+    BedName NVARCHAR(100),
+    Status NVARCHAR(50),
     MaintenanceDate DATE,
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
 );
+GO
 
 -- Bulletins Table
 CREATE TABLE Bulletins (
-    BulletinID INT PRIMARY KEY AUTO_INCREMENT,
+    BulletinID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
-    Title VARCHAR(100),
-    Content TEXT,
+    Title NVARCHAR(100),
+    Content NVARCHAR(MAX),
     PostedDate DATE,
-    IsImportant BOOLEAN,
+    IsImportant BIT,
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
+GO
 
 -- RewardPoints Table
 CREATE TABLE RewardPoints (
-    RewardID INT PRIMARY KEY AUTO_INCREMENT,
+    RewardID INT PRIMARY KEY IDENTITY(1,1),
     CustomerID INT,
     Points INT,
     DateEarned DATE,
     DateRedeemed DATE,
     FOREIGN KEY (CustomerID) REFERENCES Users(UserID)
 );
-
+GO
 -- CustomerSegmentation Table
 CREATE TABLE CustomerSegmentation (
-    SegmentID INT PRIMARY KEY AUTO_INCREMENT,
+    SegmentID INT PRIMARY KEY IDENTITY(1,1),
     SpaID INT,
-    SegmentName VARCHAR(100),
-    Criteria TEXT,
-    Benefits TEXT,
+    SegmentName NVARCHAR(100),
+    Criteria NVARCHAR(MAX),
+    Benefits NVARCHAR(MAX),
     FOREIGN KEY (SpaID) REFERENCES Spas(SpaID)
 );
+GO
 
 -- SystemSettings Table
 CREATE TABLE SystemSettings (
-    SettingID INT PRIMARY KEY AUTO_INCREMENT,
-    SettingName VARCHAR(100),
-    SettingValue TEXT
+    SettingID INT PRIMARY KEY IDENTITY(1,1),
+    SettingName NVARCHAR(100),
+    SettingValue NVARCHAR(MAX)
 );
+GO
