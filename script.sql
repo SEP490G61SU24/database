@@ -7,29 +7,21 @@ go
 -- Create User table
 CREATE TABLE [User] (
     ID_User INT IDENTITY(1,1) PRIMARY KEY,
-    UserName VARCHAR(50) NOT NULL,
-    [Password] VARCHAR(50) NOT NULL
+    UserName VARCHAR(50) NULL,
+    [Password] VARCHAR(255) NULL,
+    FirstName VARCHAR(50) NULL,
+    MidName VARCHAR(50) NULL,
+    LastName VARCHAR(50) NULL,
+    BirthDate DATE,
+    province_code VARCHAR(5) NULL,
+    district_code VARCHAR(5) NULL,
+    ward_code VARCHAR(5) NULL,
 );
 
 -- Create Role table
 CREATE TABLE [Role] (
     ID_Role INT IDENTITY(1,1) PRIMARY KEY,
     RoleName NVARCHAR(50) NOT NULL
-);
-
--- Create Permission table
-CREATE TABLE Permission (
-    ID_Per INT IDENTITY(1,1) PRIMARY KEY,
-    PerName NVARCHAR(50) NOT NULL
-);
-
--- Create Role_Permission table 
-CREATE TABLE Role_Permission (
-    ID_Role INT,
-    ID_Per INT,
-    PRIMARY KEY (ID_Role, ID_Per),
-    FOREIGN KEY (ID_Role) REFERENCES [Role](ID_Role),
-    FOREIGN KEY (ID_Per) REFERENCES Permission(ID_Per)
 );
 
 CREATE TABLE User_Role (
