@@ -74,7 +74,12 @@ CREATE TABLE Customer (
 -- Create Card table
 CREATE TABLE [Card] (
     ID_Card INT IDENTITY(1,1) PRIMARY KEY,
-    CardNumber NVARCHAR(50) NOT NULL
+    CardNumber NVARCHAR(50) NOT NULL,
+	CustomerId int NOT NULL,
+	CreateDate DATETIME,
+	Status NVARCHAR(50),
+	Price DECIMAL,
+	FOREIGN KEY (CustomerId) REFERENCES Customer(ID_Cus)
 );
 
 -- Create Service table
