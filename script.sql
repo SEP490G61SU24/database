@@ -6,7 +6,7 @@ go
 
 -- Create User table
 CREATE TABLE [User] (
-    ID_User INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     UserName VARCHAR(50) NULL,
     [Password] VARCHAR(255) NULL,
     FirstName VARCHAR(50) NULL,
@@ -20,126 +20,108 @@ CREATE TABLE [User] (
 
 -- Create Role table
 CREATE TABLE [Role] (
-    ID_Role INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     RoleName NVARCHAR(50) NOT NULL
 );
 
 CREATE TABLE User_Role (
-    ID_User INT,
-    ID_Role INT,
-    PRIMARY KEY (ID_User, ID_Role),
-    FOREIGN KEY (ID_User) REFERENCES [User](ID_User),
-    FOREIGN KEY (ID_Role) REFERENCES [Role](ID_Role)
-);
-
--- Create Employee table
-CREATE TABLE Employee (
-    ID_Employee INT IDENTITY(1,1) PRIMARY KEY,
-    ID_User INT NOT NULL,
-    FirstName NVARCHAR(50) NOT NULL,
-    LastName NVARCHAR(50) NOT NULL,
-    BirthDate DATE,
-	[Address] NVARCHAR(50),
-	[Location] NVARCHAR(50),-- ADD them foregin de lay thong tin
-    FOREIGN KEY (ID_User) REFERENCES [User](ID_User)
+    UserId INT,
+    RoleId INT,
+    PRIMARY KEY (UserId, RoleId),
+    FOREIGN KEY (UserId) REFERENCES [User](id),
+    FOREIGN KEY (RoleId) REFERENCES [Role](id)
 );
 
 -- Create Salary table
 CREATE TABLE Salary (
-    ID_Salary INT IDENTITY(1,1) PRIMARY KEY,
-    ID_Employee INT NOT NULL,
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeId INT NOT NULL,
     BaseSalary DECIMAL(10, 2),
     OvertimeHours INT,
     TotalSalary DECIMAL(10, 2),
     SalaryMonth INT,
     SalaryYear INT,
-    FOREIGN KEY (ID_Employee) REFERENCES Employee(ID_Employee)
-);
-
--- Create Customer table
-CREATE TABLE Customer (
-    ID_Cus INT IDENTITY(1,1) PRIMARY KEY,
-    [Name] NVARCHAR(100) NOT NULL,
-    Phone VARCHAR(11)
+    FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
 
 -- Create Card table
 CREATE TABLE [Card] (
-    ID_Card INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     CardNumber NVARCHAR(50) NOT NULL,
 	CustomerId int NOT NULL,
 	CreateDate DATETIME,
 	Status NVARCHAR(50),
 	Price DECIMAL,
-	FOREIGN KEY (CustomerId) REFERENCES Customer(ID_Cus)
+    FOREIGN KEY (CustomerId) REFERENCES [User](id)
 );
 
 -- Create Service table
 CREATE TABLE [Service] (
-    ID_Ser INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     ServiceName NVARCHAR(100) NOT NULL,
     [Description] NVARCHAR(255)
 );
 
 -- Create Card_Service table (junction table)
 CREATE TABLE Card_Service (
-    ID_Card INT NOT NULL,
-    ID_Ser INT NOT NULL,
-    PRIMARY KEY (ID_Card, ID_Ser),
-    FOREIGN KEY (ID_Card) REFERENCES [Card](ID_Card),
-    FOREIGN KEY (ID_Ser) REFERENCES [Service](ID_Ser)
+    CardId INT NOT NULL,
+    SerivceId INT NOT NULL,
+    PRIMARY KEY (CardId, SerivceId),
+    FOREIGN KEY (CardId) REFERENCES [Card](id),
+    FOREIGN KEY (SerivceId) REFERENCES [Service](id)
 );
 
 -- Create Customer_Card table (junction table)
 CREATE TABLE Customer_Card (
-    ID_Cus INT,
-    ID_Card INT,
-    PRIMARY KEY (ID_Cus, ID_Card),
-    FOREIGN KEY (ID_Cus) REFERENCES Customer(ID_Cus),
-    FOREIGN KEY (ID_Card) REFERENCES [Card](ID_Card)
+    CustomerId INT,
+    CardId INT,
+    PRIMARY KEY (CustomerId, CardId),
+    FOREIGN KEY (CustomerId) REFERENCES [User](id)
+    FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
 
 -- Create Spa table
 CREATE TABLE Spa (
-    ID_Spa INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     SpaName NVARCHAR(100) NOT NULL,
-	[Address] NVARCHAR(50),
-    [Location] NVARCHAR(100) -- ADD them foregin de lay thong tin
+    province_code VARCHAR(5) NULL,
+    district_code VARCHAR(5) NULL,
+    ward_code VARCHAR(5) NULL,
 );
 
 -- Create Room table
 CREATE TABLE Room (
-    ID_Room INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     RoomName NVARCHAR(100) NOT NULL
 );
 
 -- Create Spa_Room table (junction table)
 CREATE TABLE Spa_Room (
-    ID_Spa INT,
-    ID_Room INT,
-    PRIMARY KEY (ID_Spa, ID_Room),
-    FOREIGN KEY (ID_Spa) REFERENCES Spa(ID_Spa),
-    FOREIGN KEY (ID_Room) REFERENCES Room(ID_Room)
+    SpaId INT,
+    RoomId INT,
+    PRIMARY KEY (SpaId, RoomId),
+    FOREIGN KEY (SpaId) REFERENCES Spa(id),
+    FOREIGN KEY (RoomId) REFERENCES Room(id)
 );
 
 -- Create Bed table
 CREATE TABLE Bed (
-    ID_Bed INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     BedNumber NVARCHAR(50) NOT NULL
 );
 
 -- Create Room_Bed table (junction table)
 CREATE TABLE Room_Bed (
-    ID_Room INT,
-    ID_Bed INT,
-    PRIMARY KEY (ID_Room, ID_Bed),
-    FOREIGN KEY (ID_Room) REFERENCES Room(ID_Room),
-    FOREIGN KEY (ID_Bed) REFERENCES Bed(ID_Bed)
+    RoomId INT,
+    BedId INT,
+    PRIMARY KEY (RoomId, BedId),
+    FOREIGN KEY (RoomId) REFERENCES Room(id),
+    FOREIGN KEY (BedId) REFERENCES Bed(id)
 );
 
 -- Create Product table
 CREATE TABLE Product (
-    ID_Product INT IDENTITY(1,1) PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(100) NOT NULL,
     Price DECIMAL(18, 2)
 );
@@ -152,34 +134,25 @@ CREATE TABLE Category (
 
 -- Create ProductCategories table (junction table)
 CREATE TABLE ProductCategories (
-    ProductID INT,
-    CategoryID INT,
-    PRIMARY KEY (ProductID, CategoryID),
-    FOREIGN KEY (ProductID) REFERENCES Product(ID_Product),
-    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
+    ProductId INT,
+    CategoryId INT,
+    PRIMARY KEY (ProductId, CategoryId),
+    FOREIGN KEY (ProductId) REFERENCES Product(id),
+    FOREIGN KEY (CategoryId) REFERENCES Category(id)
 );
 
 -- Create Image table
 CREATE TABLE [Image] (
-    ID_Img INT IDENTITY(1,1) PRIMARY KEY,
-    ImageURL NVARCHAR(255) NOT NULL
-);
-
--- Create Product_Img table (junction table)
-CREATE TABLE Product_Img (
-    ID_Product INT,
-    ID_Img INT,
-    PRIMARY KEY (ID_Product, ID_Img),
-    FOREIGN KEY (ID_Product) REFERENCES Product(ID_Product),
-    FOREIGN KEY (ID_Img) REFERENCES [Image](ID_Img)
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    ImageURL NVARCHAR(1000) NOT NULL
 );
 
 -- Create News table
 CREATE TABLE News (
-    ID_New INT IDENTITY(1,1) PRIMARY KEY,
-    Title NVARCHAR(255) NOT NULL,
-    Content TEXT NOT NULL,
-    PublishedDate DATETIME NOT NULL
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    Title NVARCHAR(1000) NOT NULL,
+    Content NVARCHAR(MAX) NOT NULL,
+    PublishedDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 
 -- Create ImageHomePage table
@@ -190,114 +163,99 @@ CREATE TABLE ImageHomePage (
 
 -- Create Appointment table
 CREATE TABLE Appointment (
-    ID_Appointment INT IDENTITY(1,1) PRIMARY KEY,
-    CustomerID INT NOT NULL,
-    ID_Employee INT NOT NULL, -- Corrected name
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerId INT NOT NULL,
+    EmployeeId INT NOT NULL,
     AppointmentDate DATETIME NOT NULL,
-    [Status] BIT NOT NULL, -- Corrected type
-    FOREIGN KEY (CustomerID) REFERENCES Customer(ID_Cus),
-    FOREIGN KEY (ID_Employee) REFERENCES Employee(ID_Employee) -- Corrected foreign key
+    [Status] BIT NOT NULL,
+    FOREIGN KEY (CustomerId) REFERENCES [User](id),
+    FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
 
 -- Create Appointment_Service table (junction table)
 CREATE TABLE Appointment_Service (
-    AppointmentID INT,
-    ServiceID INT,
-    PRIMARY KEY (AppointmentID, ServiceID),
-    FOREIGN KEY (AppointmentID) REFERENCES Appointment(ID_Appointment),
-    FOREIGN KEY (ServiceID) REFERENCES Service(ID_Ser)
+    AppointmentId INT,
+    ServiceId INT,
+    PRIMARY KEY (AppointmentId, ServiceId),
+    FOREIGN KEY (AppointmentId) REFERENCES Appointment(id),
+    FOREIGN KEY (ServiceId) REFERENCES Service(id)
 );
 
 -- Create Appointment_Product table (junction table)
 CREATE TABLE Appointment_Product (
-    AppointmentID INT,
-    ProductID INT,
-    PRIMARY KEY (AppointmentID, ProductID),
-    FOREIGN KEY (AppointmentID) REFERENCES Appointment(ID_Appointment),
-    FOREIGN KEY (ProductID) REFERENCES Product(ID_Product)
+    AppointmentId INT,
+    ProductId INT,
+    PRIMARY KEY (AppointmentId, ProductId),
+    FOREIGN KEY (AppointmentId) REFERENCES Appointment(id),
+    FOREIGN KEY (ProductId) REFERENCES Product(id)
 );
 
 -- Create Reviews table
 CREATE TABLE Reviews (
-    ReviewID INT PRIMARY KEY IDENTITY(1,1),
-    CustomerID INT,
-    ServiceID INT,
+    id INT PRIMARY KEY IDENTITY(1,1),
+    CustomerId INT,
+    ServiceId INT,
     Rating INT CHECK (Rating BETWEEN 1 AND 5),
     Comment NVARCHAR(MAX),
     ReviewDate DATE,
-    FOREIGN KEY (CustomerID) REFERENCES Customer(ID_Cus),
-    FOREIGN KEY (ServiceID) REFERENCES [Service](ID_Ser)
+    FOREIGN KEY (CustomerId) REFERENCES Customer(id),
+    FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
 -- Create WorkSchedules table
 CREATE TABLE WorkSchedules (
-    WorkScheduleID INT PRIMARY KEY IDENTITY(1,1),
-    EmployeeID INT,
-    StartDate DATE,
-    EndDate DATE,
+    id INT PRIMARY KEY IDENTITY(1,1),
+    EmployeeId INT,
+    StartDateTime DATETIME,
+    EndDateTime DATETIME,
     DayOfWeek NVARCHAR(20),
-    StartTime TIME,
-    EndTime TIME,
-    FOREIGN KEY (EmployeeID) REFERENCES Employee(ID_Employee)
+    FOREIGN KEY (EmployeeId) REFERENCES Employee(id)
 );
 
 -- Create Notifications table
 CREATE TABLE Notifications (
-    NotificationID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT,
+    id INT PRIMARY KEY IDENTITY(1,1),
+    UserId INT,
     Message NVARCHAR(MAX),
     Is_Read BIT, -- Corrected column name
     NotificationDate DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (UserID) REFERENCES [User](ID_User)
+    FOREIGN KEY (UserId) REFERENCES [User](id)
 );
 
 -- Create Promotions table
 CREATE TABLE Promotions (
-    PromotionID INT PRIMARY KEY IDENTITY(1,1),
-    SpaID INT,
+    id INT PRIMARY KEY IDENTITY(1,1),
+    SpaId INT,
     PromotionName NVARCHAR(100),
     StartDate DATE,
     EndDate DATE,
     Description NVARCHAR(MAX),
     DiscountPercentage DECIMAL(5, 2),
-    FOREIGN KEY (SpaID) REFERENCES Spa(ID_Spa)
+    FOREIGN KEY (SpaId) REFERENCES Spa(id)
 );
 
 -- Create Invoice table for both transactions and invoices
 CREATE TABLE Invoice (
-    InvoiceID INT PRIMARY KEY IDENTITY(1,1),
-    SpaID INT,
-    CustomerID INT,
-	PromotionID INT,
-    Amount DECIMAL(10, 2),
-    InvoiceDate DATE,
+    id INT PRIMARY KEY IDENTITY(1,1),
+    SpaId INT,
+    CustomerId INT,
+	PromotionId INT,
+    Amount DECIMAL(15, 2),
+    InvoiceDate DATETIME NOT NULL DEFAULT GETDATE(),
     Description NVARCHAR(MAX),
-    FOREIGN KEY (SpaID) REFERENCES Spa(ID_Spa),
-    FOREIGN KEY (CustomerID) REFERENCES Customer(ID_Cus),
-	FOREIGN KEY (PromotionID) REFERENCES Promotions(PromotionID)
-	);
+    FOREIGN KEY (SpaID) REFERENCES Spa(id),
+    FOREIGN KEY (CustomerId) REFERENCES Customer(id),
+	FOREIGN KEY (PromotionId) REFERENCES Promotions(id)
+);
 
 -- Create Invoice_Service table (junction table)
 CREATE TABLE Invoice_Service (
-    InvoiceID INT,
-    ServiceID INT,
-    PRIMARY KEY (InvoiceID, ServiceID),
-    FOREIGN KEY (InvoiceID) REFERENCES Invoice(InvoiceID),
-    FOREIGN KEY (ServiceID) REFERENCES [Service](ID_Ser)
+    InvoiceId INT,
+    ServiceId INT,
+    PRIMARY KEY (InvoiceId, ServiceId),
+    FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
+    FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 -- Part2
