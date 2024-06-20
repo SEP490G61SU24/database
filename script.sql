@@ -156,10 +156,12 @@ CREATE TABLE News (
     PublishedDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 
--- Create ImageHomePage table
-CREATE TABLE ImageHomePage (
-    ID_ImgHomePage INT IDENTITY(1,1) PRIMARY KEY,
-    ImageURL NVARCHAR(255) NOT NULL
+-- Create SystemSettings table
+CREATE TABLE SystemSettings (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    [key] NVARCHAR(255) NOT NULL,
+    [value] NVARCHAR(1000) NOT NULL,
+    [description] NVARCHAR(1000) NULL,
 );
 
 -- Create Appointment table
