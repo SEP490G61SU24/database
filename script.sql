@@ -13,16 +13,28 @@ CREATE TABLE [User] (
     MidName VARCHAR(50) NULL,
     LastName VARCHAR(50) NULL,
     BirthDate DATE,
+	Phone VARCHAR(50) NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
 );
+
+INSERT INTO [User] (UserName, [Password], FirstName, MidName, LastName, BirthDate, Phone, province_code, district_code, ward_code)
+VALUES
+  (null, null, 'Le', 'Viet', 'Linh', '2001-01-01', '0948111111', '01', '001', '00001'),
+  (null, null, 'Nguyen', 'Thu', 'Trang', '2001-02-02', '0948111222', '01', '002', '00037'),
+  (null, null, 'Tran', 'Thi', 'Ly', '2001-03-03', '0948111333', '01', '001', '00001'),
+  (null, null, 'Tran', 'Hai', 'Anh', '2001-04-04', '0948111444', '01', '002', '00037'),
+  (null, null, 'Vu', 'Phuong', 'Anh', '2001-05-05', '0948111555', '01', '001', '00001');
 
 -- Create Role table
 CREATE TABLE [Role] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     RoleName NVARCHAR(50) NOT NULL
 );
+
+INSERT INTO Role (RoleName)
+VALUES ('Customer');
 
 CREATE TABLE User_Role (
     UserId INT,
@@ -31,6 +43,14 @@ CREATE TABLE User_Role (
     FOREIGN KEY (UserId) REFERENCES [User](id),
     FOREIGN KEY (RoleId) REFERENCES [Role](id)
 );
+
+INSERT INTO User_Role (UserId, RoleId)
+VALUES
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1);
 
 -- Create Salary table
 CREATE TABLE Salary (
@@ -51,6 +71,15 @@ CREATE TABLE [Service] (
     [Description] NVARCHAR(255)
 );
 
+INSERT INTO Service (ServiceName, [Description])
+VALUES
+  ('Facial', 'Deep cleansing and rejuvenation for your face.'),
+  ('Massage', 'Relaxing and therapeutic massage to relieve stress and tension.'),
+  ('Manicure', 'Professional nail care for beautiful and healthy hands.'),
+  ('Pedicure', 'Pampering treatment for your feet.'),
+  ('Hair Removal', 'Removal of unwanted hair using various techniques.');
+
+
 -- Create Card table
 CREATE TABLE [Card] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -62,6 +91,14 @@ CREATE TABLE [Card] (
     FOREIGN KEY (CustomerId) REFERENCES [User](id)
 );
 
+INSERT INTO Card (CardNumber, CustomerId, CreateDate, Status, Price)
+VALUES
+  ('SenVip1', 1, GETDATE(), 'Active', 3000000),
+  ('SenVip2', 2, GETDATE(), 'Active', 3000000),
+  ('SenVip3', 3, GETDATE(), 'Active', 3000000),
+  ('SenVip4', 4, GETDATE(), 'Inactive', 3000000),
+  ('SenVip5', 5, GETDATE(), 'Inactive', 3000000);
+
 -- Create Card_Service table (junction table)
 CREATE TABLE Card_Service (
     CardId INT NOT NULL,
@@ -71,15 +108,18 @@ CREATE TABLE Card_Service (
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
-
-CREATE TABLE Customer_Card (
-  CustomerId INT,
-  CardId INT,
-  PRIMARY KEY (CustomerId, CardId),  -- Add comma here
-  FOREIGN KEY (CustomerId) REFERENCES [User](id),
-  FOREIGN KEY (CardId) REFERENCES [Card](id)
-);
-
+INSERT INTO Card_Service (CardId, ServiceId)
+VALUES (1, 1),
+       (1, 4),
+	   (2, 2),
+	   (2, 3),
+	   (2, 5),
+	   (3, 1),
+	   (3, 5),
+	   (4, 2),
+	   (4, 4),
+	   (5, 1),
+	   (5, 2);
 
 -- Create Spa table
 CREATE TABLE Spa (
