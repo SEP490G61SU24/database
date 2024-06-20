@@ -89,6 +89,7 @@ CREATE TABLE Salary (
 CREATE TABLE [Service] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ServiceName NVARCHAR(100) NOT NULL,
+    Amount DECIMAL(15, 2) NOT NULL,
     [Description] NVARCHAR(255)
 );
 
@@ -99,19 +100,33 @@ CREATE TABLE [Card] (
     CustomerId int NOT NULL,
     CreateDate DATETIME,
     Status NVARCHAR(50),
-    Price DECIMAL,
-    FOREIGN KEY (CustomerId) REFERENCES [User](id)
+    FOREIGN KEY (CustomerId) REFERENCES [User](id),
 );
 
--- Create Card_Service table (junction table)
-CREATE TABLE Card_Service (
+CREATE TABLE Combo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    note NVARCHAR(1000),
+    SalePrice DECIMAL(15, 2) NOT NULL,
+    OriginalPrice DECIMAL(15, 2) NULL DEFAULT 0, -- Phải tính toán trong logic
+);
+
+CREATE TABLE Card_Combo (
+    ComboId INT NOT NULL,
     CardId INT NOT NULL,
+    PRIMARY KEY (ComboId, CardId),
+    FOREIGN KEY (ComboId) REFERENCES [Combo](id),
+    FOREIGN KEY (CardId) REFERENCES [Card](id)
+);
+
+-- Create Combo_Service table (junction table)
+CREATE TABLE Combo_Service (
+    ComboId INT NOT NULL,
     ServiceId INT NOT NULL,
-    PRIMARY KEY (CardId, ServiceId),
-    FOREIGN KEY (CardId) REFERENCES [Card](id),
+    Total INT NOT NULL, -- Tổng số buổi của dịch vụ hiện tại (Ví dụ: Tắm trắng 10 buổi.)
+    PRIMARY KEY (ComboId, ServiceId),
+    FOREIGN KEY (ComboId) REFERENCES [Combo](id),
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
-
 
 CREATE TABLE Customer_Card (
   CustomerId INT,
@@ -120,7 +135,6 @@ CREATE TABLE Customer_Card (
   FOREIGN KEY (CustomerId) REFERENCES [User](id),
   FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
-
 
 -- Create Spa table
 CREATE TABLE Spa (
@@ -165,8 +179,20 @@ CREATE TABLE Room_Bed (
 CREATE TABLE Product (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(100) NOT NULL,
-    Price DECIMAL(18, 2)
+    Price DECIMAL(18, 2),
 );
+
+-- Create Image table
+CREATE TABLE [Image] (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    ImageURL NVARCHAR(1000) NOT NULL,
+    ImagePath NVARCHAR(1000) NULL,
+);
+
+CREATE TABLE ProductImage (
+    ProductId INT,
+    ImageURL NVARCHAR(1000) NULL,
+)
 
 -- Create Category table
 CREATE TABLE Category (
@@ -183,16 +209,11 @@ CREATE TABLE ProductCategories (
     FOREIGN KEY (CategoryId) REFERENCES Category(id)
 );
 
--- Create Image table
-CREATE TABLE [Image] (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    ImageURL NVARCHAR(1000) NOT NULL
-);
-
 -- Create News table
 CREATE TABLE News (
     id INT IDENTITY(1,1) PRIMARY KEY,
     Title NVARCHAR(1000) NOT NULL,
+    Cover NVARCHAR(1000) NOT NULL,
     Content NVARCHAR(MAX) NOT NULL,
     PublishedDate DATETIME NOT NULL DEFAULT GETDATE()
 );
@@ -299,6 +320,15 @@ CREATE TABLE Invoice_Service (
     PRIMARY KEY (InvoiceId, ServiceId),
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
+);
+
+-- Create Invoice_Card table (junction table)
+CREATE TABLE Invoice_Card (
+    InvoiceId INT,
+    CardId INT,
+    PRIMARY KEY (InvoiceId, CardId),
+    FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
+    FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
 
 
