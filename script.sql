@@ -44,17 +44,6 @@ CREATE TABLE Salary (
     FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
 
--- Create Card table
-CREATE TABLE [Card] (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    CardNumber NVARCHAR(50) NOT NULL,
-	CustomerId int NOT NULL,
-	CreateDate DATETIME,
-	Status NVARCHAR(50),
-	Price DECIMAL,
-    FOREIGN KEY (CustomerId) REFERENCES [User](id)
-);
-
 -- Create Service table
 CREATE TABLE [Service] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -62,23 +51,35 @@ CREATE TABLE [Service] (
     [Description] NVARCHAR(255)
 );
 
+-- Create Card table
+CREATE TABLE [Card] (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    CardNumber NVARCHAR(50) NOT NULL,
+    CustomerId int NOT NULL,
+    CreateDate DATETIME,
+    Status NVARCHAR(50),
+    Price DECIMAL,
+    FOREIGN KEY (CustomerId) REFERENCES [User](id)
+);
+
 -- Create Card_Service table (junction table)
 CREATE TABLE Card_Service (
     CardId INT NOT NULL,
-    SerivceId INT NOT NULL,
-    PRIMARY KEY (CardId, SerivceId),
+    ServiceId INT NOT NULL,
+    PRIMARY KEY (CardId, ServiceId),
     FOREIGN KEY (CardId) REFERENCES [Card](id),
-    FOREIGN KEY (SerivceId) REFERENCES [Service](id)
+    FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
--- Create Customer_Card table (junction table)
+
 CREATE TABLE Customer_Card (
-    CustomerId INT,
-    CardId INT,
-    PRIMARY KEY (CustomerId, CardId),
-    FOREIGN KEY (CustomerId) REFERENCES [User](id)
-    FOREIGN KEY (CardId) REFERENCES [Card](id)
+  CustomerId INT,
+  CardId INT,
+  PRIMARY KEY (CustomerId, CardId),  -- Add comma here
+  FOREIGN KEY (CustomerId) REFERENCES [User](id),
+  FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
+
 
 -- Create Spa table
 CREATE TABLE Spa (
@@ -128,7 +129,7 @@ CREATE TABLE Product (
 
 -- Create Category table
 CREATE TABLE Category (
-    CategoryID INT PRIMARY KEY IDENTITY(1,1),
+    id INT PRIMARY KEY IDENTITY(1,1),
     CategoryName NVARCHAR(100) NOT NULL
 );
 
@@ -198,7 +199,7 @@ CREATE TABLE Reviews (
     Rating INT CHECK (Rating BETWEEN 1 AND 5),
     Comment NVARCHAR(MAX),
     ReviewDate DATE,
-    FOREIGN KEY (CustomerId) REFERENCES Customer(id),
+    FOREIGN KEY (CustomerId) REFERENCES [User](id),
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
@@ -209,7 +210,7 @@ CREATE TABLE WorkSchedules (
     StartDateTime DATETIME,
     EndDateTime DATETIME,
     DayOfWeek NVARCHAR(20),
-    FOREIGN KEY (EmployeeId) REFERENCES Employee(id)
+    FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
 
 -- Create Notifications table
@@ -244,7 +245,7 @@ CREATE TABLE Invoice (
     InvoiceDate DATETIME NOT NULL DEFAULT GETDATE(),
     Description NVARCHAR(MAX),
     FOREIGN KEY (SpaID) REFERENCES Spa(id),
-    FOREIGN KEY (CustomerId) REFERENCES Customer(id),
+    FOREIGN KEY (CustomerId) REFERENCES [User](id),
 	FOREIGN KEY (PromotionId) REFERENCES Promotions(id)
 );
 
