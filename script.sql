@@ -98,7 +98,7 @@ CREATE TABLE [Service] (
 CREATE TABLE Combo (
     id INT IDENTITY(1,1) PRIMARY KEY,
 	name NVARCHAR(50),
-	Total INT NOT NULL, -- Tổng số buổi của combo hiện tại
+	quantity INT NOT NULL, -- Tổng số buổi của combo hiện tại
 	note NVARCHAR(50),
 	Price DECIMAL(15, 2) NULL,
 	discount DECIMAL(8,2) NULL, -- 5 10 20 buổi 0.05 0.15 0.2, 2 3 dịch vụ 0.1 0.15
