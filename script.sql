@@ -1,3 +1,36 @@
+-- -- Xóa tất cả bảng trong db
+-- DECLARE @sql NVARCHAR(MAX) = N'';
+
+-- -- Xóa tất cả các khóa ngoại
+-- SELECT @sql += N'ALTER TABLE ' + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name) + 
+--               N' DROP CONSTRAINT ' + QUOTENAME(f.name) + N'; '
+-- FROM sys.foreign_keys AS f
+-- JOIN sys.tables AS t ON f.parent_object_id = t.object_id
+-- JOIN sys.schemas AS s ON t.schema_id = s.schema_id
+-- ORDER BY f.name;
+
+-- -- In ra các lệnh ALTER TABLE để kiểm tra
+-- PRINT @sql;
+
+-- -- Thực thi các lệnh ALTER TABLE
+-- EXEC sp_executesql @sql;
+
+-- -- Reset biến @sql
+-- SET @sql = N'';
+
+-- -- Tạo các lệnh DROP TABLE cho tất cả các bảng
+-- SELECT @sql += N'DROP TABLE ' + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name) + N'; '
+-- FROM sys.tables AS t
+-- JOIN sys.schemas AS s ON t.schema_id = s.schema_id
+-- ORDER BY t.name;
+
+-- -- In ra các lệnh DROP TABLE để kiểm tra
+-- PRINT @sql;
+
+-- -- Thực thi các lệnh DROP TABLE
+-- EXEC sp_executesql @sql;
+
+
 --Part 1
 create database SenShineSpa
 go
