@@ -46,6 +46,7 @@ CREATE TABLE [User] (
     MidName VARCHAR(50) NULL,
     LastName VARCHAR(50) NULL,
     BirthDate DATE,
+    Phone VARCHAR(50) NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
@@ -89,8 +90,19 @@ CREATE TABLE Salary (
 CREATE TABLE [Service] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ServiceName NVARCHAR(100) NOT NULL,
-    Amount DECIMAL(15, 2) NOT NULL,
+    Price DECIMAL(15, 2) NOT NULL,
     [Description] NVARCHAR(255)
+);
+
+-- Create Combo table
+CREATE TABLE Combo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+	name NVARCHAR(50),
+	Total INT NOT NULL, -- Tổng số buổi của combo hiện tại
+	note NVARCHAR(50),
+	Price DECIMAL(15, 2) NULL,
+	discount DECIMAL(8,2) NULL, -- 5 10 20 buổi 0.05 0.15 0.2, 2 3 dịch vụ 0.1 0.15
+    SalePrice DECIMAL(15, 2) NULL,
 );
 
 -- Create Card table
@@ -100,41 +112,26 @@ CREATE TABLE [Card] (
     CustomerId int NOT NULL,
     CreateDate DATETIME,
     Status NVARCHAR(50),
+	TotalPrice DECIMAL(15, 2) NULL,
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
 );
 
-CREATE TABLE Combo (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    note NVARCHAR(1000),
-    SalePrice DECIMAL(15, 2) NOT NULL,
-    OriginalPrice DECIMAL(15, 2) NULL DEFAULT 0, -- Phải tính toán trong logic
-);
-
-CREATE TABLE Card_Combo (
-    ComboId INT NOT NULL,
-    CardId INT NOT NULL,
-    PRIMARY KEY (ComboId, CardId),
-    FOREIGN KEY (ComboId) REFERENCES [Combo](id),
-    FOREIGN KEY (CardId) REFERENCES [Card](id)
-);
-
--- Create Combo_Service table (junction table)
 CREATE TABLE Combo_Service (
     ComboId INT NOT NULL,
     ServiceId INT NOT NULL,
-    Total INT NOT NULL, -- Tổng số buổi của dịch vụ hiện tại (Ví dụ: Tắm trắng 10 buổi.)
     PRIMARY KEY (ComboId, ServiceId),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id),
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
-CREATE TABLE Customer_Card (
-  CustomerId INT,
-  CardId INT,
-  PRIMARY KEY (CustomerId, CardId),  -- Add comma here
-  FOREIGN KEY (CustomerId) REFERENCES [User](id),
-  FOREIGN KEY (CardId) REFERENCES [Card](id)
+CREATE TABLE Card_Combo (
+	CardId INT NOT NULL,
+    ComboId INT NOT NULL,
+    PRIMARY KEY (CardId, ComboId),
+	FOREIGN KEY (CardId) REFERENCES [Card](id),
+    FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
+
 
 -- Create Spa table
 CREATE TABLE Spa (
@@ -142,7 +139,7 @@ CREATE TABLE Spa (
     SpaName NVARCHAR(100) NOT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
-    ward_code VARCHAR(5) NULL,
+    ward_code VARCHAR(5) NULL
 );
 
 -- Create Room table
@@ -179,19 +176,19 @@ CREATE TABLE Room_Bed (
 CREATE TABLE Product (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(100) NOT NULL,
-    Price DECIMAL(18, 2),
+    Price DECIMAL(18, 2)
 );
 
 -- Create Image table
 CREATE TABLE [Image] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ImageURL NVARCHAR(1000) NOT NULL,
-    ImagePath NVARCHAR(1000) NULL,
+    ImagePath NVARCHAR(1000) NULL
 );
 
 CREATE TABLE ProductImage (
     ProductId INT,
-    ImageURL NVARCHAR(1000) NULL,
+    ImageURL NVARCHAR(1000) NULL
 )
 
 -- Create Category table
@@ -223,7 +220,7 @@ CREATE TABLE SystemSettings (
     id INT IDENTITY(1,1) PRIMARY KEY,
     [key] NVARCHAR(255) NOT NULL,
     [value] NVARCHAR(1000) NOT NULL,
-    [description] NVARCHAR(1000) NULL,
+    [description] NVARCHAR(1000) NULL
 );
 
 -- Create Appointment table
@@ -331,7 +328,6 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
 
-
 -- Part2
 
 CREATE TABLE administrative_regions (
@@ -429,6 +425,67 @@ CREATE INDEX idx_wards_unit ON wards(administrative_unit_id);
 /* Created at:  Sun, 05 May 2024 16:21:58 +0700 */
 /* Reference: https://github.com/ThangLeQuoc/vietnamese-provinces-database */
 /* =============================================== */
+
+-- DATA for testing
+INSERT INTO [User] (UserName, [Password], FirstName, MidName, LastName, BirthDate, Phone, province_code, district_code, ward_code)
+VALUES
+  (null, null, 'Le', 'Viet', 'Linh', '2001-01-01', '0948111111', '01', '001', '00001'),
+  (null, null, 'Nguyen', 'Thu', 'Trang', '2001-02-02', '0948111222', '01', '002', '00037'),
+  (null, null, 'Tran', 'Thi', 'Ly', '2001-03-03', '0948111333', '01', '001', '00001'),
+  (null, null, 'Tran', 'Hai', 'Anh', '2001-04-04', '0948111444', '01', '002', '00037'),
+  (null, null, 'Vu', 'Phuong', 'Anh', '2001-05-05', '0948111555', '01', '001', '00001');
+
+INSERT INTO Role (RoleName)
+VALUES ('Customer');
+
+INSERT INTO User_Role (UserId, RoleId)
+VALUES
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1);
+
+INSERT INTO Service (ServiceName, Price, [Description])
+VALUES
+  ('Facial', 1000000, 'Deep cleansing and rejuvenation for your face.'),
+  ('Massage', 1000000, 'Relaxing and therapeutic massage to relieve stress and tension.'),
+  ('Manicure', 900000, 'Professional nail care for beautiful and healthy hands.'),
+  ('Pedicure', 1000000, 'Pampering treatment for your feet.'),
+  ('Hair Removal', 2000000, 'Removal of unwanted hair using various techniques.');
+
+INSERT INTO Combo (name, Total, note, discount)
+VALUES
+  ('Combo1', 5, 'Great', null),
+  ('Combo2', 10, 'Improves', null),
+  ('Combo3', 20, 'Enjoy', null);
+
+INSERT INTO Combo_Service (ComboId, ServiceId)
+VALUES
+  (1,1),
+  (2,1),
+  (2,2),
+  (3,3),
+  (3,4),
+  (3,5);
+
+INSERT INTO Card (CardNumber, CustomerId, CreateDate, Status, TotalPrice)
+VALUES
+  ('SenVip1', 1, GETDATE(), 'Active', null),
+  ('SenVip2', 2, GETDATE(), 'Active', null),
+  ('SenVip3', 3, GETDATE(), 'Active', null),
+  ('SenVip4', 4, GETDATE(), 'Inactive', null),
+  ('SenVip5', 5, GETDATE(), 'Inactive', null);
+
+INSERT INTO  Card_Combo (CardId, ComboId)
+VALUES
+  (1,1),
+  (1,2),
+  (2,1),
+  (2,3),
+  (3,1),
+  (4,2),
+  (5,1);
 
 -- DATA for administrative_regions --
 INSERT INTO administrative_regions(id,name,name_en,code_name,code_name_en) VALUES(1,N'Đông Bắc Bộ',N'Northeast',N'dong_bac_bo',N'northest');
