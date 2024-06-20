@@ -24,6 +24,14 @@ CREATE TABLE [Role] (
     RoleName NVARCHAR(50) NOT NULL
 );
 
+GO
+
+INSERT INTO [Role] (RoleName) VALUES
+('CEO'),
+('MANAGER'),
+('RECEPTIONIST'),
+('STAFF');
+
 CREATE TABLE User_Role (
     UserId INT,
     RoleId INT,
