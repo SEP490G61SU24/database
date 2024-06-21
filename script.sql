@@ -45,6 +45,7 @@ CREATE TABLE [User] (
     FirstName VARCHAR(50) NULL,
     MidName VARCHAR(50) NULL,
     LastName VARCHAR(50) NULL,
+    Phone VARCHAR(50) NULL,
     BirthDate DATE,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
@@ -100,14 +101,18 @@ CREATE TABLE [Card] (
     CustomerId int NOT NULL,
     CreateDate DATETIME,
     Status NVARCHAR(50),
+	TotalPrice DECIMAL(15, 2) NULL,
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
 );
 
 CREATE TABLE Combo (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    note NVARCHAR(1000),
-    SalePrice DECIMAL(15, 2) NOT NULL,
-    OriginalPrice DECIMAL(15, 2) NULL DEFAULT 0, -- Phải tính toán trong logic
+	[Name] NVARCHAR(50),
+	Quantity INT NOT NULL, -- Tổng số buổi của combo hiện tại
+	Note NVARCHAR(50),
+	Price DECIMAL(15, 2) NULL,
+	Discount DECIMAL(8,2) NULL, -- 5 10 20 buổi 0.05 0.15 0.2, 2 3 dịch vụ 0.1 0.15
+    SalePrice DECIMAL(15, 2) NULL,
 );
 
 CREATE TABLE Card_Combo (
@@ -122,7 +127,6 @@ CREATE TABLE Card_Combo (
 CREATE TABLE Combo_Service (
     ComboId INT NOT NULL,
     ServiceId INT NOT NULL,
-    Total INT NOT NULL, -- Tổng số buổi của dịch vụ hiện tại (Ví dụ: Tắm trắng 10 buổi.)
     PRIMARY KEY (ComboId, ServiceId),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id),
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
