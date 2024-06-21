@@ -98,10 +98,10 @@ CREATE TABLE [Service] (
 -- Create Combo table
 CREATE TABLE Combo (
     id INT IDENTITY(1,1) PRIMARY KEY,
-	name NVARCHAR(50),
-	quantity INT NOT NULL,
-	note NVARCHAR(50),
-	Price DECIMAL(15, 2) NULL,
+    name NVARCHAR(50),
+    quantity INT NOT NULL,
+    note NVARCHAR(50),
+    Price DECIMAL(15, 2) NULL,
     discount DECIMAL(8,2) NULL,
     SalePrice DECIMAL(15, 2) NULL,
 );
