@@ -99,10 +99,10 @@ CREATE TABLE [Service] (
 CREATE TABLE Combo (
     id INT IDENTITY(1,1) PRIMARY KEY,
 	name NVARCHAR(50),
-	quantity INT NOT NULL, -- Tổng số buổi của combo hiện tại
+	quantity INT NOT NULL,
 	note NVARCHAR(50),
 	Price DECIMAL(15, 2) NULL,
-	discount DECIMAL(8,2) NULL, -- 5 10 20 buổi 0.05 0.15 0.2, 2 3 dịch vụ 0.1 0.15
+    discount DECIMAL(8,2) NULL,
     SalePrice DECIMAL(15, 2) NULL,
 );
 
@@ -126,7 +126,7 @@ CREATE TABLE Combo_Service (
 );
 
 CREATE TABLE Card_Combo (
-	CardId INT NOT NULL,
+    CardId INT NOT NULL,
     ComboId INT NOT NULL,
     PRIMARY KEY (CardId, ComboId),
 	FOREIGN KEY (CardId) REFERENCES [Card](id),
@@ -437,7 +437,7 @@ VALUES
   (null, null, 'Vu', 'Phuong', 'Anh', '2001-05-05', '0948111555', '01', '001', '00001');
 
 INSERT INTO Role (RoleName)
-VALUES ('Customer');
+VALUES ('CUSTOMER');
 
 INSERT INTO User_Role (UserId, RoleId)
 VALUES
