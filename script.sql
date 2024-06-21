@@ -41,10 +41,11 @@ go
 CREATE TABLE [User] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     UserName VARCHAR(50) NULL,
-    [Password] VARCHAR(255) NULL,
+    [Password] VARCHAR(300) NULL,
     FirstName VARCHAR(50) NULL,
     MidName VARCHAR(50) NULL,
     LastName VARCHAR(50) NULL,
+    Phone VARCHAR(50) NULL,
     BirthDate DATE,
     Phone VARCHAR(50) NULL,
     province_code VARCHAR(5) NULL,
