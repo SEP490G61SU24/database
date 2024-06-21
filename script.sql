@@ -47,7 +47,6 @@ CREATE TABLE [User] (
     LastName VARCHAR(50) NULL,
     Phone VARCHAR(50) NULL,
     BirthDate DATE,
-    Phone VARCHAR(50) NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
