@@ -126,10 +126,10 @@ CREATE TABLE Combo_Service (
 );
 
 CREATE TABLE Card_Combo (
-	CardId INT NOT NULL,
-	ComboId INT NOT NULL,
-	PRIMARY KEY (CardId, ComboId),
-	FOREIGN KEY (CardId) REFERENCES [Card](id),
+    CardId INT NOT NULL,
+    ComboId INT NOT NULL,
+    PRIMARY KEY (CardId, ComboId),
+    FOREIGN KEY (CardId) REFERENCES [Card](id),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
 
