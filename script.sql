@@ -47,6 +47,7 @@ CREATE TABLE [User] (
     LastName VARCHAR(50) NULL,
     Phone VARCHAR(50) NULL,
     BirthDate DATE,
+    Phone VARCHAR(50) NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
@@ -90,8 +91,19 @@ CREATE TABLE Salary (
 CREATE TABLE [Service] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ServiceName NVARCHAR(100) NOT NULL,
-    Amount DECIMAL(15, 2) NOT NULL,
+    Price DECIMAL(15, 2) NOT NULL,
     [Description] NVARCHAR(255)
+);
+
+-- Create Combo table
+CREATE TABLE Combo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(50),
+    quantity INT NOT NULL,
+    note NVARCHAR(50),
+    Price DECIMAL(15, 2) NULL,
+    discount DECIMAL(8,2) NULL,
+    SalePrice DECIMAL(15, 2) NULL,
 );
 
 -- Create Card table
@@ -105,25 +117,6 @@ CREATE TABLE [Card] (
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
 );
 
-CREATE TABLE Combo (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-	[Name] NVARCHAR(50),
-	Quantity INT NOT NULL, -- Tổng số buổi của combo hiện tại
-	Note NVARCHAR(50),
-	Price DECIMAL(15, 2) NULL,
-	Discount DECIMAL(8,2) NULL, -- 5 10 20 buổi 0.05 0.15 0.2, 2 3 dịch vụ 0.1 0.15
-    SalePrice DECIMAL(15, 2) NULL,
-);
-
-CREATE TABLE Card_Combo (
-    ComboId INT NOT NULL,
-    CardId INT NOT NULL,
-    PRIMARY KEY (ComboId, CardId),
-    FOREIGN KEY (ComboId) REFERENCES [Combo](id),
-    FOREIGN KEY (CardId) REFERENCES [Card](id)
-);
-
--- Create Combo_Service table (junction table)
 CREATE TABLE Combo_Service (
     ComboId INT NOT NULL,
     ServiceId INT NOT NULL,
@@ -132,12 +125,12 @@ CREATE TABLE Combo_Service (
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
-CREATE TABLE Customer_Card (
-  CustomerId INT,
-  CardId INT,
-  PRIMARY KEY (CustomerId, CardId),  -- Add comma here
-  FOREIGN KEY (CustomerId) REFERENCES [User](id),
-  FOREIGN KEY (CardId) REFERENCES [Card](id)
+CREATE TABLE Card_Combo (
+    CardId INT NOT NULL,
+    ComboId INT NOT NULL,
+    PRIMARY KEY (CardId, ComboId),
+    FOREIGN KEY (CardId) REFERENCES [Card](id),
+    FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
 
 -- Create Spa table
@@ -146,7 +139,7 @@ CREATE TABLE Spa (
     SpaName NVARCHAR(100) NOT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
-    ward_code VARCHAR(5) NULL,
+    ward_code VARCHAR(5) NULL
 );
 
 -- Create Room table
@@ -183,19 +176,19 @@ CREATE TABLE Room_Bed (
 CREATE TABLE Product (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(100) NOT NULL,
-    Price DECIMAL(18, 2),
+    Price DECIMAL(18, 2)
 );
 
 -- Create Image table
 CREATE TABLE [Image] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ImageURL NVARCHAR(1000) NOT NULL,
-    ImagePath NVARCHAR(1000) NULL,
+    ImagePath NVARCHAR(1000) NULL
 );
 
 CREATE TABLE ProductImage (
     ProductId INT,
-    ImageURL NVARCHAR(1000) NULL,
+    ImageURL NVARCHAR(1000) NULL
 )
 
 -- Create Category table
@@ -227,7 +220,7 @@ CREATE TABLE SystemSettings (
     id INT IDENTITY(1,1) PRIMARY KEY,
     [key] NVARCHAR(255) NOT NULL,
     [value] NVARCHAR(1000) NOT NULL,
-    [description] NVARCHAR(1000) NULL,
+    [description] NVARCHAR(1000) NULL
 );
 
 -- Create Appointment table
@@ -334,7 +327,6 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
-
 
 -- Part2
 
