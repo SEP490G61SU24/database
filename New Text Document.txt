@@ -1,0 +1,60 @@
+-- DATA for testing
+INSERT INTO [User] (UserName, [Password], FirstName, MidName, LastName, BirthDate, Phone, province_code, district_code, ward_code)
+VALUES
+  (null, null, 'Le', 'Viet', 'Linh', '2001-01-01', '0948111111', '01', '001', '00001'),
+  (null, null, 'Nguyen', 'Thu', 'Trang', '2001-02-02', '0948111222', '01', '002', '00037'),
+  (null, null, 'Tran', 'Thi', 'Ly', '2001-03-03', '0948111333', '01', '001', '00001'),
+  (null, null, 'Tran', 'Hai', 'Anh', '2001-04-04', '0948111444', '01', '002', '00037'),
+  (null, null, 'Vu', 'Phuong', 'Anh', '2001-05-05', '0948111555', '01', '001', '00001');
+
+INSERT INTO Role (RoleName)
+VALUES ('CUSTOMER');
+
+INSERT INTO User_Role (UserId, RoleId)
+VALUES
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1);
+
+INSERT INTO Service (ServiceName, Price, [Description])
+VALUES
+  ('Facial', 1000000, 'Deep cleansing and rejuvenation for your face.'),
+  ('Massage', 1000000, 'Relaxing and therapeutic massage to relieve stress and tension.'),
+  ('Manicure', 900000, 'Professional nail care for beautiful and healthy hands.'),
+  ('Pedicure', 1000000, 'Pampering treatment for your feet.'),
+  ('Hair Removal', 2000000, 'Removal of unwanted hair using various techniques.');
+
+INSERT INTO Combo (name, Total, note, discount)
+VALUES
+  ('Combo1', 5, 'Great', null),
+  ('Combo2', 10, 'Improves', null),
+  ('Combo3', 20, 'Enjoy', null);
+
+INSERT INTO Combo_Service (ComboId, ServiceId)
+VALUES
+  (1,1),
+  (2,1),
+  (2,2),
+  (3,3),
+  (3,4),
+  (3,5);
+
+INSERT INTO Card (CardNumber, CustomerId, CreateDate, Status, TotalPrice)
+VALUES
+  ('SenVip1', 1, GETDATE(), 'Active', null),
+  ('SenVip2', 2, GETDATE(), 'Active', null),
+  ('SenVip3', 3, GETDATE(), 'Active', null),
+  ('SenVip4', 4, GETDATE(), 'Inactive', null),
+  ('SenVip5', 5, GETDATE(), 'Inactive', null);
+
+INSERT INTO  Card_Combo (CardId, ComboId)
+VALUES
+  (1,1),
+  (1,2),
+  (2,1),
+  (2,3),
+  (3,1),
+  (4,2),
+  (5,1);
