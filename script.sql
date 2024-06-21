@@ -65,7 +65,8 @@ INSERT INTO [Role] (RoleName) VALUES
 ('CEO'),
 ('MANAGER'),
 ('RECEPTIONIST'),
-('STAFF');
+('STAFF'),
+('CUSTOMER');
 
 CREATE TABLE User_Role (
     UserId INT,
