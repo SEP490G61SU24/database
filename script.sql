@@ -141,7 +141,7 @@ CREATE TABLE Spa (
     SpaName NVARCHAR(100) NOT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
-    ward_code VARCHAR(5) NULL
+    ward_code VARCHAR(5) NULL,
 );
 
 -- Create Room table
@@ -205,7 +205,7 @@ CREATE TABLE ProductCategories (
     CategoryId INT,
     PRIMARY KEY (ProductId, CategoryId),
     FOREIGN KEY (ProductId) REFERENCES Product(id),
-    FOREIGN KEY (CategoryId) REFERENCES Category(id),
+    FOREIGN KEY (CategoryId) REFERENCES Category(id)
 );
 
 -- Create News table
@@ -214,7 +214,7 @@ CREATE TABLE News (
     Title NVARCHAR(1000) NOT NULL,
     Cover NVARCHAR(1000) NOT NULL,
     Content NVARCHAR(MAX) NOT NULL,
-    PublishedDate DATETIME NOT NULL DEFAULT GETDATE(),
+    PublishedDate DATETIME NOT NULL DEFAULT GETDATE()
 );
 
 -- Create SystemSettings table
@@ -222,7 +222,7 @@ CREATE TABLE SystemSettings (
     id INT IDENTITY(1,1) PRIMARY KEY,
     [key] NVARCHAR(255) NOT NULL,
     [value] NVARCHAR(1000) NOT NULL,
-    [description] NVARCHAR(1000) NULL
+    [description] NVARCHAR(1000) NULL,
 );
 
 -- Create Appointment table
