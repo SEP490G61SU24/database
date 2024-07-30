@@ -110,11 +110,12 @@ CREATE TABLE Combo (
 CREATE TABLE [Card] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     CardNumber NVARCHAR(50) NOT NULL,
+    BranchId int NOT NULL,
     CustomerId int NOT NULL,
     CreateDate DATETIME,
     Status NVARCHAR(50),
-	TotalPrice DECIMAL(15, 2) NULL,
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
+    FOREIGN KEY (BranchId) REFERENCES [Spa](id)
 );
 
 CREATE TABLE Combo_Service (
@@ -126,9 +127,10 @@ CREATE TABLE Combo_Service (
 );
 
 CREATE TABLE Card_Combo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
     CardId INT NOT NULL,
     ComboId INT NOT NULL,
-    PRIMARY KEY (CardId, ComboId),
+    SessionDone INT,
     FOREIGN KEY (CardId) REFERENCES [Card](id),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
