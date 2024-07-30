@@ -147,7 +147,7 @@ CREATE TABLE Spa (
 -- Create Room table
 CREATE TABLE Room (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    RoomName NVARCHAR(100) NOT NULL,
+    RoomName NVARCHAR(100) NOT NULL
 );
 
 -- Create Spa_Room table (junction table)
@@ -196,7 +196,7 @@ CREATE TABLE ProductImage (
 -- Create Category table
 CREATE TABLE Category (
     id INT PRIMARY KEY IDENTITY(1,1),
-    CategoryName NVARCHAR(100) NOT NULL,
+    CategoryName NVARCHAR(100) NOT NULL
 );
 
 -- Create ProductCategories table (junction table)
@@ -205,7 +205,7 @@ CREATE TABLE ProductCategories (
     CategoryId INT,
     PRIMARY KEY (ProductId, CategoryId),
     FOREIGN KEY (ProductId) REFERENCES Product(id),
-    FOREIGN KEY (CategoryId) REFERENCES Category(id)
+    FOREIGN KEY (CategoryId) REFERENCES Category(id),
 );
 
 -- Create News table
@@ -330,7 +330,6 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
 
--
 -- Part2
 
 CREATE TABLE administrative_regions (
