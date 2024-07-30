@@ -91,7 +91,7 @@ CREATE TABLE Salary (
 CREATE TABLE [Service] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ServiceName NVARCHAR(100) NOT NULL,
-    Price DECIMAL(15, 2) NOT NULL,
+    Amount DECIMAL(15, 2) NOT NULL,
     [Description] NVARCHAR(255)
 );
 
@@ -141,13 +141,13 @@ CREATE TABLE Spa (
     SpaName NVARCHAR(100) NOT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
-    ward_code VARCHAR(5) NULL
+    ward_code VARCHAR(5) NULL,
 );
 
 -- Create Room table
 CREATE TABLE Room (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    RoomName NVARCHAR(100) NOT NULL
+    RoomName NVARCHAR(100) NOT NULL,
 );
 
 -- Create Spa_Room table (junction table)
@@ -178,25 +178,25 @@ CREATE TABLE Room_Bed (
 CREATE TABLE Product (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(100) NOT NULL,
-    Price DECIMAL(18, 2)
+    Price DECIMAL(18, 2),
 );
 
 -- Create Image table
 CREATE TABLE [Image] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ImageURL NVARCHAR(1000) NOT NULL,
-    ImagePath NVARCHAR(1000) NULL
+    ImagePath NVARCHAR(1000) NULL,
 );
 
 CREATE TABLE ProductImage (
     ProductId INT,
-    ImageURL NVARCHAR(1000) NULL
+    ImageURL NVARCHAR(1000) NULL,
 )
 
 -- Create Category table
 CREATE TABLE Category (
     id INT PRIMARY KEY IDENTITY(1,1),
-    CategoryName NVARCHAR(100) NOT NULL
+    CategoryName NVARCHAR(100) NOT NULL,
 );
 
 -- Create ProductCategories table (junction table)
@@ -330,6 +330,7 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
 
+-
 -- Part2
 
 CREATE TABLE administrative_regions (
