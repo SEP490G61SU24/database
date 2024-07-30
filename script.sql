@@ -141,7 +141,7 @@ CREATE TABLE Spa (
     SpaName NVARCHAR(100) NOT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
-    ward_code VARCHAR(5) NULL,
+    ward_code VARCHAR(5) NULL
 );
 
 -- Create Room table
@@ -214,7 +214,7 @@ CREATE TABLE News (
     Title NVARCHAR(1000) NOT NULL,
     Cover NVARCHAR(1000) NOT NULL,
     Content NVARCHAR(MAX) NOT NULL,
-    PublishedDate DATETIME NOT NULL DEFAULT GETDATE()
+    PublishedDate DATETIME NOT NULL DEFAULT GETDATE(),
 );
 
 -- Create SystemSettings table
