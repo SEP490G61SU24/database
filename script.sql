@@ -95,36 +95,29 @@ CREATE TABLE [Service] (
     [Description] NVARCHAR(255)
 );
 
+-- Create Combo table
+CREATE TABLE Combo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(50),
+    quantity INT NOT NULL,
+    note NVARCHAR(50),
+    Price DECIMAL(15, 2) NULL,
+    discount DECIMAL(8,2) NULL,
+    SalePrice DECIMAL(15, 2) NULL,
+);
+
 -- Create Card table
 CREATE TABLE [Card] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     CardNumber NVARCHAR(50) NOT NULL,
+    BranchId int NOT NULL,
     CustomerId int NOT NULL,
     CreateDate DATETIME,
     Status NVARCHAR(50),
-	TotalPrice DECIMAL(15, 2) NULL,
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
+    FOREIGN KEY (BranchId) REFERENCES [Spa](id)
 );
 
-CREATE TABLE Combo (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-	[Name] NVARCHAR(50),
-	Quantity INT NOT NULL, -- Tổng số buổi của combo hiện tại
-	Note NVARCHAR(50),
-	Price DECIMAL(15, 2) NULL,
-	Discount DECIMAL(8,2) NULL, -- 5 10 20 buổi 0.05 0.15 0.2, 2 3 dịch vụ 0.1 0.15
-    SalePrice DECIMAL(15, 2) NULL,
-);
-
-CREATE TABLE Card_Combo (
-    ComboId INT NOT NULL,
-    CardId INT NOT NULL,
-    PRIMARY KEY (ComboId, CardId),
-    FOREIGN KEY (ComboId) REFERENCES [Combo](id),
-    FOREIGN KEY (CardId) REFERENCES [Card](id)
-);
-
--- Create Combo_Service table (junction table)
 CREATE TABLE Combo_Service (
     ComboId INT NOT NULL,
     ServiceId INT NOT NULL,
@@ -133,12 +126,13 @@ CREATE TABLE Combo_Service (
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
-CREATE TABLE Customer_Card (
-  CustomerId INT,
-  CardId INT,
-  PRIMARY KEY (CustomerId, CardId),  -- Add comma here
-  FOREIGN KEY (CustomerId) REFERENCES [User](id),
-  FOREIGN KEY (CardId) REFERENCES [Card](id)
+CREATE TABLE Card_Combo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    CardId INT NOT NULL,
+    ComboId INT NOT NULL,
+    SessionDone INT,
+    FOREIGN KEY (CardId) REFERENCES [Card](id),
+    FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
 
 -- Create Spa table
@@ -335,7 +329,6 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
-
 
 -- Part2
 
