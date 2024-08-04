@@ -47,6 +47,9 @@ CREATE TABLE [User] (
     LastName NVARCHAR(50) NULL,
     Phone VARCHAR(50) NULL,
     BirthDate DATE,
+    Status VARCHAR(10) NOT NULL DEFAULT 'ACTIVE',
+    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
+    SpaId INT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
@@ -162,7 +165,8 @@ CREATE TABLE Spa_Room (
 -- Create Bed table
 CREATE TABLE Bed (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    BedNumber NVARCHAR(50) NOT NULL
+    BedNumber NVARCHAR(50) NOT NULL,
+    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
 );
 
 -- Create Room_Bed table (junction table)
@@ -179,6 +183,7 @@ CREATE TABLE Product (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(100) NOT NULL,
     Price DECIMAL(18, 2),
+    Quantity INT NOT NULL DEFAULT 0,
 );
 
 -- Create Image table
@@ -231,7 +236,7 @@ CREATE TABLE Appointment (
     CustomerId INT NOT NULL,
     EmployeeId INT NOT NULL,
     AppointmentDate DATETIME NOT NULL,
-    [Status] BIT NOT NULL,
+    [Status] NVARCHAR(10) NOT NULL DEFAULT 'PENDING',
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
     FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
