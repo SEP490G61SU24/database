@@ -110,7 +110,14 @@ CREATE TABLE Combo (
     discount DECIMAL(8,2) NULL,
     SalePrice DECIMAL(15, 2) NULL,
 );
-
+-- Create Spa table
+CREATE TABLE Spa (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    SpaName NVARCHAR(100) NOT NULL,
+    province_code VARCHAR(5) NULL,
+    district_code VARCHAR(5) NULL,
+    ward_code VARCHAR(5) NULL,
+);
 -- Create Card table
 CREATE TABLE [Card] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -140,14 +147,7 @@ CREATE TABLE Card_Combo (
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
 
--- Create Spa table
-CREATE TABLE Spa (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    SpaName NVARCHAR(100) NOT NULL,
-    province_code VARCHAR(5) NULL,
-    district_code VARCHAR(5) NULL,
-    ward_code VARCHAR(5) NULL,
-);
+
 
 -- Create Room table
 CREATE TABLE Room (
@@ -336,7 +336,14 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
-
+-- Create Invoice_Card table (junction table)
+CREATE TABLE Invoice_Combo (
+    InvoiceId INT,
+    ComboId INT,
+    PRIMARY KEY (InvoiceId, ComboId),
+    FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
+    FOREIGN KEY (ComboId) REFERENCES [Combo](id)
+);
 -- Part2
 
 CREATE TABLE administrative_regions (
