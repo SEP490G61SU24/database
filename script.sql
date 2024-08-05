@@ -42,11 +42,14 @@ CREATE TABLE [User] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     UserName VARCHAR(50) NULL,
     [Password] VARCHAR(300) NULL,
-    FirstName VARCHAR(50) NULL,
-    MidName VARCHAR(50) NULL,
-    LastName VARCHAR(50) NULL,
+    FirstName NVARCHAR(50) NULL,
+    MidName NVARCHAR(50) NULL,
+    LastName NVARCHAR(50) NULL,
     Phone VARCHAR(50) NULL,
     BirthDate DATE,
+    Status VARCHAR(10) NOT NULL DEFAULT 'ACTIVE',
+    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
+    SpaId INT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
@@ -107,7 +110,14 @@ CREATE TABLE Combo (
     discount DECIMAL(8,2) NULL,
     SalePrice DECIMAL(15, 2) NULL,
 );
-
+-- Create Spa table
+CREATE TABLE Spa (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    SpaName NVARCHAR(100) NOT NULL,
+    province_code VARCHAR(5) NULL,
+    district_code VARCHAR(5) NULL,
+    ward_code VARCHAR(5) NULL,
+);
 -- Create Card table
 CREATE TABLE [Card] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -137,14 +147,7 @@ CREATE TABLE Card_Combo (
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
 
--- Create Spa table
-CREATE TABLE Spa (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    SpaName NVARCHAR(100) NOT NULL,
-    province_code VARCHAR(5) NULL,
-    district_code VARCHAR(5) NULL,
-    ward_code VARCHAR(5) NULL,
-);
+
 
 -- Create Room table
 CREATE TABLE Room (
@@ -164,7 +167,8 @@ CREATE TABLE Spa_Room (
 -- Create Bed table
 CREATE TABLE Bed (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    BedNumber NVARCHAR(50) NOT NULL
+    BedNumber NVARCHAR(50) NOT NULL,
+    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
 );
 
 -- Create Room_Bed table (junction table)
@@ -181,6 +185,7 @@ CREATE TABLE Product (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ProductName NVARCHAR(100) NOT NULL,
     Price DECIMAL(18, 2),
+    Quantity INT NOT NULL DEFAULT 0,
 );
 
 -- Create Image table
@@ -233,7 +238,7 @@ CREATE TABLE Appointment (
     CustomerId INT NOT NULL,
     EmployeeId INT NOT NULL,
     AppointmentDate DATETIME NOT NULL,
-    [Status] BIT NOT NULL,
+    [Status] NVARCHAR(10) NOT NULL DEFAULT 'PENDING',
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
     FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
@@ -331,7 +336,14 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
-
+-- Create Invoice_Card table (junction table)
+CREATE TABLE Invoice_Combo (
+    InvoiceId INT,
+    ComboId INT,
+    PRIMARY KEY (InvoiceId, ComboId),
+    FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
+    FOREIGN KEY (ComboId) REFERENCES [Combo](id)
+);
 -- Part2
 
 CREATE TABLE administrative_regions (
