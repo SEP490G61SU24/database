@@ -118,6 +118,24 @@ CREATE TABLE Spa (
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
 );
+
+-- Create Room table
+CREATE TABLE Room (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+	SpaId INT NOT NULL,
+    RoomName NVARCHAR(100) NOT NULL
+	FOREIGN KEY (SpaId) REFERENCES [Spa](id),
+);
+
+-- Create Bed table
+CREATE TABLE Bed (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+	RoomId INT NOT NULL,
+    BedNumber NVARCHAR(50) NOT NULL,
+    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
+	FOREIGN KEY (RoomId) REFERENCES [Room](id),
+);
+
 -- Create Card table
 CREATE TABLE [Card] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -145,39 +163,6 @@ CREATE TABLE Card_Combo (
     SessionDone INT,
     FOREIGN KEY (CardId) REFERENCES [Card](id),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
-);
-
-
-
--- Create Room table
-CREATE TABLE Room (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    RoomName NVARCHAR(100) NOT NULL
-);
-
--- Create Spa_Room table (junction table)
-CREATE TABLE Spa_Room (
-    SpaId INT,
-    RoomId INT,
-    PRIMARY KEY (SpaId, RoomId),
-    FOREIGN KEY (SpaId) REFERENCES Spa(id),
-    FOREIGN KEY (RoomId) REFERENCES Room(id)
-);
-
--- Create Bed table
-CREATE TABLE Bed (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    BedNumber NVARCHAR(50) NOT NULL,
-    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
-);
-
--- Create Room_Bed table (junction table)
-CREATE TABLE Room_Bed (
-    RoomId INT,
-    BedId INT,
-    PRIMARY KEY (RoomId, BedId),
-    FOREIGN KEY (RoomId) REFERENCES Room(id),
-    FOREIGN KEY (BedId) REFERENCES Bed(id)
 );
 
 -- Create Product table
