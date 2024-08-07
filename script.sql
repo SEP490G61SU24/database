@@ -30,10 +30,6 @@
 -- -- Thực thi các lệnh DROP TABLE
 -- EXEC sp_executesql @sql;
 
-
---Part 1
-create database SenShineSpa
-go
 use SenShineSpa
 go
 
@@ -79,7 +75,7 @@ CREATE TABLE User_Role (
     FOREIGN KEY (RoleId) REFERENCES [Role](id)
 );
 
-CREATE TABLE Rule (
+CREATE TABLE [Rule] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     [type] NVARCHAR(50) NOT NULL,
     pid INT NOT NULL,
