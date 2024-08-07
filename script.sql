@@ -192,8 +192,10 @@ CREATE TABLE [Image] (
 );
 
 CREATE TABLE ProductImage (
+	id INT IDENTITY(1,1) PRIMARY KEY,
     ProductId INT,
     ImageURL NVARCHAR(1000) NULL,
+	FOREIGN KEY (ProductId) REFERENCES Product(id)
 )
 
 -- Create Category table
