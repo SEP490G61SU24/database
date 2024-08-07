@@ -79,7 +79,7 @@ CREATE TABLE User_Role (
     FOREIGN KEY (RoleId) REFERENCES [Role](id)
 );
 
-CREATE TABLE Auth_Rule (
+CREATE TABLE Rule (
     id INT IDENTITY(1,1) PRIMARY KEY,
     [type] NVARCHAR(50) NOT NULL,
     pid INT NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE Auth_Rule (
     condition NVARCHAR (50) NULL,
     remark NVARCHAR (50) NULL,
     ismenu BIT DEFAULT 1,
-    order INT NOT NULL
+    [order] INT NOT NULL
 );
 
 -- Create Salary table
