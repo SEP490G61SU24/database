@@ -58,17 +58,18 @@ CREATE TABLE [User] (
 -- Create Role table
 CREATE TABLE [Role] (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    RoleName NVARCHAR(50) NOT NULL
+    RoleName NVARCHAR(50) NOT NULL,
+    Rules NVARCHAR(1000) NOT NULL,
 );
 
 GO
 
-INSERT INTO [Role] (RoleName) VALUES
-('CEO'),
-('MANAGER'),
-('RECEPTIONIST'),
-('STAFF'),
-('CUSTOMER');
+INSERT INTO [Role] (RoleName, Rules) VALUES
+('CEO', '*'),
+('MANAGER', '1,2,3,4,5,6,7,8,9,10'),
+('RECEPTIONIST', '1,2,3,4,5,6'),
+('STAFF', '1,2,3,4'),
+('CUSTOMER', '1');
 
 CREATE TABLE User_Role (
     UserId INT,
@@ -76,6 +77,20 @@ CREATE TABLE User_Role (
     PRIMARY KEY (UserId, RoleId),
     FOREIGN KEY (UserId) REFERENCES [User](id),
     FOREIGN KEY (RoleId) REFERENCES [Role](id)
+);
+
+CREATE TABLE Auth_Rule (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    [type] NVARCHAR(50) NOT NULL,
+    pid INT NOT NULL,
+    [path] NVARCHAR(50) NOT NULL,
+    title NVARCHAR(50) NOT NULL,
+    icon NVARCHAR(50) NULL,
+    [url] NVARCHAR (50) NULL,
+    condition NVARCHAR (50) NULL,
+    remark NVARCHAR (50) NULL,
+    ismenu BIT DEFAULT 1,
+    order INT NOT NULL
 );
 
 -- Create Salary table
