@@ -312,6 +312,7 @@ CREATE TABLE Invoice (
     Amount DECIMAL(15, 2),
     InvoiceDate DATETIME NOT NULL DEFAULT GETDATE(),
     Description NVARCHAR(MAX),
+	[Status] NVARCHAR(50) NOT NULL DEFAULT 'Pending',
     FOREIGN KEY (SpaID) REFERENCES Spa(id),
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
 	FOREIGN KEY (PromotionId) REFERENCES Promotions(id)
