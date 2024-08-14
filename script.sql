@@ -29,10 +29,10 @@
 
 -- -- Thực thi các lệnh DROP TABLE
 -- EXEC sp_executesql @sql;
-
-use SenShineSpa
+--create database SenShineSpa
 go
-
+use  SenShineSpa
+go
 -- Create User table
 CREATE TABLE [User] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -198,6 +198,7 @@ CREATE TABLE ProductImage (
 	FOREIGN KEY (ProductId) REFERENCES Product(id)
 )
 
+
 -- Create Category table
 CREATE TABLE Category (
     id INT PRIMARY KEY IDENTITY(1,1),
@@ -277,7 +278,7 @@ CREATE TABLE WorkSchedules (
     EmployeeId INT,
     StartDateTime DATETIME,
     EndDateTime DATETIME,
-    Status NVARCHAR(20),
+    DayOfWeek NVARCHAR(20),
     FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
 
@@ -311,17 +312,19 @@ CREATE TABLE Invoice (
 	PromotionId INT,
     Amount DECIMAL(15, 2),
     InvoiceDate DATETIME NOT NULL DEFAULT GETDATE(),
-    Description NVARCHAR(MAX),
 	[Status] NVARCHAR(50) NOT NULL DEFAULT 'Pending',
+    Description NVARCHAR(MAX),
     FOREIGN KEY (SpaID) REFERENCES Spa(id),
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
 	FOREIGN KEY (PromotionId) REFERENCES Promotions(id)
 );
 
+
 -- Create Invoice_Service table (junction table)
 CREATE TABLE Invoice_Service (
     InvoiceId INT,
     ServiceId INT,
+	Quantity INT,
     PRIMARY KEY (InvoiceId, ServiceId),
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
@@ -339,6 +342,7 @@ CREATE TABLE Invoice_Card (
 CREATE TABLE Invoice_Combo (
     InvoiceId INT,
     ComboId INT,
+	Quantity INT,
     PRIMARY KEY (InvoiceId, ComboId),
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
