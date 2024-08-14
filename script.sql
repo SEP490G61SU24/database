@@ -277,7 +277,7 @@ CREATE TABLE WorkSchedules (
     EmployeeId INT,
     StartDateTime DATETIME,
     EndDateTime DATETIME,
-    DayOfWeek NVARCHAR(20),
+    Status NVARCHAR(20),
     FOREIGN KEY (EmployeeId) REFERENCES [User](id)
 );
 
