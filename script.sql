@@ -182,6 +182,8 @@ CREATE TABLE Product (
     ProductName NVARCHAR(100) NOT NULL,
     Price DECIMAL(18, 2),
     Quantity INT NOT NULL DEFAULT 0,
+	SpaId int NOT NULL,
+	FOREIGN KEY (SpaId) REFERENCES [Spa](id)
 );
 
 -- Create Image table
