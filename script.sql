@@ -62,13 +62,13 @@ CREATE TABLE [User] (
 
 GO
 
-INSERT INTO [User] (id, UserName, [Password], FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
+INSERT INTO [User] (UserName, [Password], FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
 VALUES
-(1, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Hoàng', 'Văn', 'Toàn', '0987654321', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-(2, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Trương', 'Thế', 'An', '0987654322', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-(3, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Nguyễn', 'Trọng', 'Bảnh', '0987654323', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-(4, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Hồ', 'Như', 'Ý', '0987654324', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-(5, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Nguyễn', 'Thanh', 'Lãm', '0987654325', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043');
+('senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Hoàng', 'Văn', 'Toàn', '0987654321', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+('senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Trương', 'Thế', 'An', '0987654322', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+('senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Nguyễn', 'Trọng', 'Bảnh', '0987654323', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+('senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Hồ', 'Như', 'Ý', '0987654324', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+('senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Nguyễn', 'Thanh', 'Lãm', '0987654325', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043');
 
 -- Create Role table
 CREATE TABLE [Role] (
@@ -79,12 +79,12 @@ CREATE TABLE [Role] (
 
 GO
 
-INSERT INTO [Role] (id, RoleName, Rules) VALUES
-(1, 'CEO', '1,2,3,4,5,6,7,8,9,10'),
-(2, 'MANAGER', '1,2,3,4,5,6,7,8,9,10'),
-(3, 'RECEPTIONIST', '1,2,3,4,5,6'),
-(4, 'STAFF', '1,2,3,4'),
-(5, 'CUSTOMER', '1');
+INSERT INTO [Role] (RoleName, Rules) VALUES
+('CEO', '1,2,3,4,5,6,7,8,9,10'),
+('MANAGER', '1,2,3,4,5,6,7,8,9,10'),
+('RECEPTIONIST', '1,2,3,4,5,6'),
+('STAFF', '1,2,3,4'),
+('CUSTOMER', '1');
 
 CREATE TABLE User_Role (
     UserId INT,
