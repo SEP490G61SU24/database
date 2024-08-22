@@ -1,10 +1,10 @@
 ﻿INSERT INTO [User] (FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
 VALUES 
 (N'Nguyễn', N'Văn', N'An', '0901123456', '1985-05-15', 'ACTIVE', 'AVAILABLE', 1, '001', '002', '003'),
-(N'Trần', N'Thị', N'Bích', '0902234567', '1990-09-20', 'ACTIVE', 'AVAILABLE', 2, '004', '005', '006'),
-(N'Lê', N'Hoàng', N'Phúc', '0903345678', '1988-12-10', 'ACTIVE', 'AVAILABLE', 3, '007', '008', '009'),
-(N'Phạm', N'Minh', N'Triết', '0904456789', '1992-07-07', 'ACTIVE', 'AVAILABLE', 4, '010', '011', '012'),
-(N'Vũ', N'Hà', N'Linh', '0905567890', '1995-03-25', 'ACTIVE', 'AVAILABLE', 5, '013', '014', '015');
+(N'Trần', N'Thị', N'Bích', '0902234567', '1990-09-20', 'ACTIVE', 'AVAILABLE', 1, '004', '005', '006'),
+(N'Lê', N'Hoàng', N'Phúc', '0903345678', '1988-12-10', 'ACTIVE', 'AVAILABLE', 1, '007', '008', '009'),
+(N'Phạm', N'Minh', N'Triết', '0904456789', '1992-07-07', 'ACTIVE', 'AVAILABLE', 1, '010', '011', '012'),
+(N'Vũ', N'Hà', N'Linh', '0905567890', '1995-03-25', 'ACTIVE', 'AVAILABLE', 1, '013', '014', '015');
 INSERT INTO User_Role (UserId, RoleId) VALUES
 (6, 5),
 (7, 5),
