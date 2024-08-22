@@ -1,38 +1,47 @@
--- -- Xóa tất cả bảng trong db
--- DECLARE @sql NVARCHAR(MAX) = N'';
+IF DB_ID('SenShineSpa') IS NULL
+BEGIN
+    CREATE DATABASE SenShineSpa;
+END;
 
--- -- Xóa tất cả các khóa ngoại
--- SELECT @sql += N'ALTER TABLE ' + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name) + 
---               N' DROP CONSTRAINT ' + QUOTENAME(f.name) + N'; '
--- FROM sys.foreign_keys AS f
--- JOIN sys.tables AS t ON f.parent_object_id = t.object_id
--- JOIN sys.schemas AS s ON t.schema_id = s.schema_id
--- ORDER BY f.name;
+USE SenShineSpa;
+GO
 
--- -- In ra các lệnh ALTER TABLE để kiểm tra
--- PRINT @sql;
+-- Xóa tất cả bảng trong db
+DECLARE @sql NVARCHAR(MAX) = N'';
 
--- -- Thực thi các lệnh ALTER TABLE
--- EXEC sp_executesql @sql;
+-- Xóa tất cả các khóa ngoại
+SELECT @sql += N'ALTER TABLE ' + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name) + 
+              N' DROP CONSTRAINT ' + QUOTENAME(f.name) + N'; '
+FROM sys.foreign_keys AS f
+JOIN sys.tables AS t ON f.parent_object_id = t.object_id
+JOIN sys.schemas AS s ON t.schema_id = s.schema_id
+ORDER BY f.name;
 
--- -- Reset biến @sql
--- SET @sql = N'';
+-- In ra các lệnh ALTER TABLE để kiểm tra
+PRINT @sql;
 
--- -- Tạo các lệnh DROP TABLE cho tất cả các bảng
--- SELECT @sql += N'DROP TABLE ' + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name) + N'; '
--- FROM sys.tables AS t
--- JOIN sys.schemas AS s ON t.schema_id = s.schema_id
--- ORDER BY t.name;
+-- Thực thi các lệnh ALTER TABLE
+EXEC sp_executesql @sql;
 
--- -- In ra các lệnh DROP TABLE để kiểm tra
--- PRINT @sql;
+-- Reset biến @sql
+SET @sql = N'';
 
--- -- Thực thi các lệnh DROP TABLE
--- EXEC sp_executesql @sql;
---create database SenShineSpa
-go
-use  SenShineSpa
-go
+-- Tạo các lệnh DROP TABLE cho tất cả các bảng
+SELECT @sql += N'DROP TABLE ' + QUOTENAME(s.name) + N'.' + QUOTENAME(t.name) + N'; '
+FROM sys.tables AS t
+JOIN sys.schemas AS s ON t.schema_id = s.schema_id
+ORDER BY t.name;
+
+-- In ra các lệnh DROP TABLE để kiểm tra
+PRINT @sql;
+
+-- Thực thi các lệnh DROP TABLE
+EXEC sp_executesql @sql;
+
+GO
+USE SenShineSpa;
+GO
+
 -- Create User table
 CREATE TABLE [User] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -43,13 +52,23 @@ CREATE TABLE [User] (
     LastName NVARCHAR(50) NULL,
     Phone VARCHAR(50) NULL,
     BirthDate DATE,
-    Status VARCHAR(10) NOT NULL DEFAULT 'ACTIVE',
+    [Status] VARCHAR(10) NOT NULL DEFAULT 'ACTIVE',
     StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
     SpaId INT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
 );
+
+GO
+
+INSERT INTO Users (id, UserName, [Password], FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
+VALUES
+(1, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Hoàng', 'Văn', 'Toàn', '0987654321', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+(2, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Trương', 'Thế', 'An', '0987654322', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+(3, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Nguyễn', 'Trọng', 'Bảnh', '0987654323', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+(4, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Hồ', 'Như', 'Ý', '0987654324', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
+(5, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Nguyễn', 'Thanh', 'Lãm', '0987654325', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043');
 
 -- Create Role table
 CREATE TABLE [Role] (
@@ -60,12 +79,12 @@ CREATE TABLE [Role] (
 
 GO
 
-INSERT INTO [Role] (RoleName, Rules) VALUES
-('CEO', '*'),
-('MANAGER', '1,2,3,4,5,6,7,8,9,10'),
-('RECEPTIONIST', '1,2,3,4,5,6'),
-('STAFF', '1,2,3,4'),
-('CUSTOMER', '1');
+INSERT INTO [Role] (id, RoleName, Rules) VALUES
+(1, 'CEO', '1,2,3,4,5,6,7,8,9,10'),
+(2, 'MANAGER', '1,2,3,4,5,6,7,8,9,10'),
+(3, 'RECEPTIONIST', '1,2,3,4,5,6'),
+(4, 'STAFF', '1,2,3,4'),
+(5, 'CUSTOMER', '1');
 
 CREATE TABLE User_Role (
     UserId INT,
@@ -75,9 +94,17 @@ CREATE TABLE User_Role (
     FOREIGN KEY (RoleId) REFERENCES [Role](id)
 );
 
+GO
+
+INSERT INTO User_Role (UserId, RoleId) VALUES
+(1, 1),
+(2, 2),
+(3, 4),
+(4, 4),
+(5, 5);
+
 CREATE TABLE [Rule] (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    [type] NVARCHAR(50) NOT NULL,
     pid INT NOT NULL,
     [path] NVARCHAR(50) NOT NULL,
     title NVARCHAR(50) NOT NULL,
@@ -129,6 +156,18 @@ CREATE TABLE Spa (
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
 );
+
+GO
+
+INSERT INTO Spa (SpaName, province_code, district_code, ward_code) 
+VALUES 
+('SenShine Spa Hanoi', '01', '003', '00094'),
+('SenShine Spa Saigon', '79', '760', '26734'),
+('SenShine Spa Danang', '48', '491', '20203'),
+('SenShine Spa Hue', '46', '474', '19756'),
+('SenShine Spa Can Tho', '92', '916', '31120');
+
+GO
 
 -- Create Room table
 CREATE TABLE Room (
@@ -199,7 +238,6 @@ CREATE TABLE ProductImage (
     ImageURL NVARCHAR(1000) NULL,
 	FOREIGN KEY (ProductId) REFERENCES Product(id)
 )
-
 
 -- Create Category table
 CREATE TABLE Category (
@@ -324,7 +362,6 @@ CREATE TABLE Invoice (
 	FOREIGN KEY (PromotionId) REFERENCES Promotions(id)
 );
 
-
 -- Create Invoice_Service table (junction table)
 CREATE TABLE Invoice_Service (
     InvoiceId INT,
@@ -343,6 +380,7 @@ CREATE TABLE Invoice_Card (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (CardId) REFERENCES [Card](id)
 );
+
 -- Create Invoice_Card table (junction table)
 CREATE TABLE Invoice_Combo (
     InvoiceId INT,
@@ -352,6 +390,7 @@ CREATE TABLE Invoice_Combo (
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
+
 -- Part2
 
 CREATE TABLE administrative_regions (
@@ -362,7 +401,6 @@ CREATE TABLE administrative_regions (
 	code_name_en nvarchar(255) NULL,
 	CONSTRAINT administrative_regions_pkey PRIMARY KEY (id)
 );
-
 
 -- CREATE administrative_units TABLE
 CREATE TABLE administrative_units (
@@ -375,7 +413,6 @@ CREATE TABLE administrative_units (
 	code_name_en nvarchar(255) NULL,
 	CONSTRAINT administrative_units_pkey PRIMARY KEY (id)
 );
-
 
 -- CREATE provinces TABLE
 CREATE TABLE provinces (
@@ -390,15 +427,12 @@ CREATE TABLE provinces (
 	CONSTRAINT provinces_pkey PRIMARY KEY (code)
 );
 
-
 -- provinces foreign keys
-
 ALTER TABLE provinces ADD CONSTRAINT provinces_administrative_region_id_fkey FOREIGN KEY (administrative_region_id) REFERENCES administrative_regions(id);
 ALTER TABLE provinces ADD CONSTRAINT provinces_administrative_unit_id_fkey FOREIGN KEY (administrative_unit_id) REFERENCES administrative_units(id);
 
 CREATE INDEX idx_provinces_region ON provinces(administrative_region_id);
 CREATE INDEX idx_provinces_unit ON provinces(administrative_unit_id);
-
 
 -- CREATE districts TABLE
 CREATE TABLE districts (
@@ -413,16 +447,12 @@ CREATE TABLE districts (
 	CONSTRAINT districts_pkey PRIMARY KEY (code)
 );
 
-
 -- districts foreign keys
-
 ALTER TABLE districts ADD CONSTRAINT districts_administrative_unit_id_fkey FOREIGN KEY (administrative_unit_id) REFERENCES administrative_units(id);
 ALTER TABLE districts ADD CONSTRAINT districts_province_code_fkey FOREIGN KEY (province_code) REFERENCES provinces(code);
 
 CREATE INDEX idx_districts_province ON districts(province_code);
 CREATE INDEX idx_districts_unit ON districts(administrative_unit_id);
-
-
 
 -- CREATE wards TABLE
 CREATE TABLE wards (
@@ -437,9 +467,7 @@ CREATE TABLE wards (
 	CONSTRAINT wards_pkey PRIMARY KEY (code)
 );
 
-
 -- wards foreign keys
-
 ALTER TABLE wards ADD CONSTRAINT wards_administrative_unit_id_fkey FOREIGN KEY (administrative_unit_id) REFERENCES administrative_units(id);
 ALTER TABLE wards ADD CONSTRAINT wards_district_code_fkey FOREIGN KEY (district_code) REFERENCES districts(code);
 
