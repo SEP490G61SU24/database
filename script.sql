@@ -118,7 +118,7 @@ CREATE TABLE [Rule] (
 
 GO
 
-INSERT INTO Rule (pid, [path], title, icon, ismenu, [order])
+INSERT INTO [Rule] (pid, [path], title, icon, ismenu, [order])
 VALUES
 (0, '#', N'SenShine', NULL, 1, 0),
 (1, '#', N'Bảng điều khiển', 'fa fa-tachometer', 1, 1),
