@@ -62,7 +62,7 @@ CREATE TABLE [User] (
 
 GO
 
-INSERT INTO Users (id, UserName, [Password], FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
+INSERT INTO [User] (id, UserName, [Password], FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
 VALUES
 (1, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Hoàng', 'Văn', 'Toàn', '0987654321', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
 (2, 'senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', 'Trương', 'Thế', 'An', '0987654322', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
