@@ -53,7 +53,7 @@ CREATE TABLE [User] (
     Phone VARCHAR(50) NULL,
     BirthDate DATE,
     [Status] VARCHAR(10) NOT NULL DEFAULT 'ACTIVE',
-    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'INACTIVE',
+    StatusWorking VARCHAR(10) NOT NULL DEFAULT 'AVAILABLE',
     SpaId INT NULL,
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
