@@ -426,6 +426,7 @@ CREATE TABLE Reviews (
 CREATE TABLE WorkSchedules (
     id INT PRIMARY KEY IDENTITY(1,1),
     EmployeeId INT,
+    [Status] VARCHAR(20),
     StartDateTime DATETIME,
     EndDateTime DATETIME,
     DayOfWeek NVARCHAR(20),
