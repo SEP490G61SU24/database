@@ -65,10 +65,10 @@ GO
 INSERT INTO [User] (UserName, [Password], FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
 VALUES
 ('senshineceo', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Hoàng', N'Văn', N'Toàn', '0987654321', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-('senshineman', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Trương', N'Thế', N'An', '0987654322', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-('senshinerec', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Nguyễn', N'Trọng', N'Bảnh', '0987654323', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-('senshinesta', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Hồ', N'Như', N'Ý', '0987654324', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043'),
-('senshinecus', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Nguyễn', N'Thanh', N'Lãm', '0987654325', '2005-05-11', 'ACTIVE', 'AVAILABLE', NULL, '01', '002', '00043');
+('senshineman', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Trương', N'Thế', N'An', '0987654322', '2005-05-11', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
+('senshinerec', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Nguyễn', N'Trọng', N'Bảnh', '0987654323', '2005-05-11', 'ACTIVE', 'AVAILABLE', 2, '01', '002', '00043'),
+('senshinesta', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Hồ', N'Như', N'Ý', '0987654324', '2005-05-11', 'ACTIVE', 'AVAILABLE', 3, '01', '002', '00043'),
+('senshinecus', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Nguyễn', N'Thanh', N'Lãm', '0987654325', '2005-05-11', 'ACTIVE', 'AVAILABLE', 4, '01', '002', '00043');
 
 -- Create Role table
 CREATE TABLE [Role] (
