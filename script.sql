@@ -222,7 +222,7 @@ VALUES
 (98, '/branch/listbranch', N'Danh sách chi nhánh', NULL, 1, 99),
 (98, '/branch/createbranch', N'Thêm chi nhánh', NULL, 1, 100),
 (98, '/branch/updatebranch', N'Cập nhật chi nhánh', NULL, 0, 101),
-(98, '/branch/detailbranch', N'Chi tiết chi nhánh', NULL, 0, 102);
+(98, '/branch/detailbranch', N'Chi tiết chi nhánh', NULL, 0, 102),
 (99, '/card/usecard', N'Dùng thẻ', NULL, 0, 103);
 
 -- Create Salary table
