@@ -481,13 +481,12 @@ CREATE TABLE Invoice_Service (
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
 );
 
--- Create Invoice_Card table (junction table)
-CREATE TABLE Invoice_Card (
-    InvoiceId INT,
-    CardId INT,
-    PRIMARY KEY (InvoiceId, CardId),
-    FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
-    FOREIGN KEY (CardId) REFERENCES [Card](id)
+CREATE TABLE Card_Invoice (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    CardId INT NOT NULL,
+    InvoiceId INT NOT NULL,
+    FOREIGN KEY (CardId) REFERENCES [Card](id),
+    FOREIGN KEY (InvoiceId) REFERENCES [Invoice](id)
 );
 
 -- Create Invoice_Card table (junction table)
