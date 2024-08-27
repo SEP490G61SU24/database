@@ -329,43 +329,11 @@ CREATE TABLE Card_Combo (
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
 );
 
--- Create Product table
-CREATE TABLE Product (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    ProductName NVARCHAR(100) NOT NULL,
-    Price DECIMAL(18, 2),
-    Quantity INT NOT NULL DEFAULT 0,
-	SpaId int NOT NULL,
-	FOREIGN KEY (SpaId) REFERENCES [Spa](id)
-);
-
 -- Create Image table
 CREATE TABLE [Image] (
     id INT IDENTITY(1,1) PRIMARY KEY,
     ImageURL NVARCHAR(1000) NOT NULL,
     ImagePath NVARCHAR(1000) NULL,
-);
-
-CREATE TABLE ProductImage (
-	id INT IDENTITY(1,1) PRIMARY KEY,
-    ProductId INT,
-    ImageURL NVARCHAR(1000) NULL,
-	FOREIGN KEY (ProductId) REFERENCES Product(id)
-)
-
--- Create Category table
-CREATE TABLE Category (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    CategoryName NVARCHAR(100) NOT NULL
-);
-
--- Create ProductCategories table (junction table)
-CREATE TABLE ProductCategories (
-    ProductId INT,
-    CategoryId INT,
-    PRIMARY KEY (ProductId, CategoryId),
-    FOREIGN KEY (ProductId) REFERENCES Product(id),
-    FOREIGN KEY (CategoryId) REFERENCES Category(id)
 );
 
 -- Create News table
@@ -406,15 +374,6 @@ CREATE TABLE Appointment_Service (
     PRIMARY KEY (AppointmentId, ServiceId),
     FOREIGN KEY (AppointmentId) REFERENCES Appointment(id),
     FOREIGN KEY (ServiceId) REFERENCES Service(id)
-);
-
--- Create Appointment_Product table (junction table)
-CREATE TABLE Appointment_Product (
-    AppointmentId INT,
-    ProductId INT,
-    PRIMARY KEY (AppointmentId, ProductId),
-    FOREIGN KEY (AppointmentId) REFERENCES Appointment(id),
-    FOREIGN KEY (ProductId) REFERENCES Product(id)
 );
 
 -- Create Reviews table
