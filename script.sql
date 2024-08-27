@@ -58,6 +58,7 @@ CREATE TABLE [User] (
     province_code VARCHAR(5) NULL,
     district_code VARCHAR(5) NULL,
     ward_code VARCHAR(5) NULL,
+    CreatedAt DATE DEFAULT GETDATE(),
 );
 
 GO
