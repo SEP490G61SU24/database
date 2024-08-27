@@ -224,7 +224,9 @@ VALUES
 (98, '/branch/createbranch', N'Thêm chi nhánh', NULL, 1, 100),
 (98, '/branch/updatebranch', N'Cập nhật chi nhánh', NULL, 0, 101),
 (98, '/branch/detailbranch', N'Chi tiết chi nhánh', NULL, 0, 102),
-(99, '/card/usecard', N'Dùng thẻ', NULL, 0, 103);
+(99, '/card/usecard', N'Dùng thẻ', NULL, 0, 103),
+(16, '/invoice/CheckPayment', N'Kiểm tra chuyển khoản', NULL, 0, 104),
+(100, '/report/ReportRevenue', N'Thống kê', 'fa fa-bar-chart-o', 1, 105);
 
 -- Create Salary table
 CREATE TABLE Salary (
