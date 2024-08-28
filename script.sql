@@ -358,13 +358,13 @@ CREATE TABLE Appointment (
     id INT IDENTITY(1,1) PRIMARY KEY,
     CustomerId INT NOT NULL,
     EmployeeId INT NOT NULL,
+    BedId INT NOT NULL,
     AppointmentDate DATETIME NOT NULL,
-	AppointmentSlot NVARCHAR(15) NOT NULL DEFAULT 'SLOT1',
-    BedNumber NVARCHAR(50) NULL,
-    RoomName NVARCHAR(100) NULL,
+    AppointmentSlot NVARCHAR(15) NOT NULL DEFAULT 'SLOT1',
     [Status] NVARCHAR(10) NOT NULL DEFAULT 'PENDING',
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
-    FOREIGN KEY (EmployeeId) REFERENCES [User](id)
+    FOREIGN KEY (EmployeeId) REFERENCES [User](id),
+    FOREIGN KEY (BedId) REFERENCES [User](id)
 );
 
 -- Create Appointment_Service table (junction table)
