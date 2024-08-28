@@ -364,7 +364,7 @@ CREATE TABLE Appointment (
     [Status] NVARCHAR(10) NOT NULL DEFAULT 'PENDING',
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
     FOREIGN KEY (EmployeeId) REFERENCES [User](id),
-    FOREIGN KEY (BedId) REFERENCES [User](id)
+    FOREIGN KEY (BedId) REFERENCES [Bed](id)
 );
 
 -- Create Appointment_Service table (junction table)
