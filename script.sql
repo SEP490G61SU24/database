@@ -260,6 +260,7 @@ CREATE TABLE Combo (
     discount DECIMAL(8,2) NULL,
     SalePrice DECIMAL(15, 2) NULL,
 );
+
 -- Create Spa table
 CREATE TABLE Spa (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -284,9 +285,9 @@ GO
 -- Create Room table
 CREATE TABLE Room (
     id INT IDENTITY(1,1) PRIMARY KEY,
-	SpaId INT NOT NULL,
-    RoomName NVARCHAR(100) NOT NULL
-	FOREIGN KEY (SpaId) REFERENCES [Spa](id),
+    SpaId INT NOT NULL,
+    RoomName NVARCHAR(100) NOT NULL,
+    FOREIGN KEY (SpaId) REFERENCES [Spa](id)
 );
 
 -- Create Bed table
@@ -353,18 +354,56 @@ CREATE TABLE SystemSettings (
     [description] NVARCHAR(1000) NULL,
 );
 
+CREATE TABLE Slot (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    SlotName NVARCHAR(100) NOT NULL,
+    TimeFrom TIME(0),
+    TimeTo TIME(0)
+);
+
+INSERT INTO Slot (SlotName, TimeFrom, TimeTo) VALUES
+    ('Slot 1', '08:00:00', '09:00:00'),
+    ('Slot 2', '09:00:00', '10:00:00'),
+    ('Slot 3', '10:00:00', '11:00:00'),
+    ('Slot 4', '11:00:00', '12:00:00'),
+    ('Slot 5', '12:00:00', '13:00:00'),
+    ('Slot 6', '13:00:00', '14:00:00'),
+    ('Slot 7', '14:00:00', '15:00:00'),
+    ('Slot 8', '15:00:00', '16:00:00');
+
+CREATE TABLE BedSlot (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    BedId  INT NOT NULL,
+    SlotId  INT NOT NULL,
+    SlotDate DATETIME NOT NULL,
+    Status NVARCHAR(50),
+    FOREIGN KEY (BedId) REFERENCES [Bed](id),
+    FOREIGN KEY (SlotId) REFERENCES [Slot](id)
+);
+
+CREATE TABLE UserSlot (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId  INT NOT NULL,
+    SlotId  INT NOT NULL,
+    SlotDate DATETIME NOT NULL,
+    Status NVARCHAR(50),
+    FOREIGN KEY (UserId) REFERENCES [User](id),
+    FOREIGN KEY (SlotId) REFERENCES [Slot](id)
+);
+
 -- Create Appointment table
 CREATE TABLE Appointment (
     id INT IDENTITY(1,1) PRIMARY KEY,
     CustomerId INT NOT NULL,
     EmployeeId INT NOT NULL,
     BedId INT NOT NULL,
+    SlotId  INT NOT NULL,
     AppointmentDate DATETIME NOT NULL,
-    AppointmentSlot NVARCHAR(15) NOT NULL DEFAULT 'SLOT1',
-    [Status] NVARCHAR(10) NOT NULL DEFAULT 'PENDING',
+    Status NVARCHAR(50) DEFAULT 'PENDING',
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
     FOREIGN KEY (EmployeeId) REFERENCES [User](id),
-    FOREIGN KEY (BedId) REFERENCES [Bed](id)
+    FOREIGN KEY (BedId) REFERENCES [Bed](id),
+    FOREIGN KEY (SlotId) REFERENCES [Slot](id)
 );
 
 -- Create Appointment_Service table (junction table)
@@ -374,6 +413,15 @@ CREATE TABLE Appointment_Service (
     PRIMARY KEY (AppointmentId, ServiceId),
     FOREIGN KEY (AppointmentId) REFERENCES Appointment(id),
     FOREIGN KEY (ServiceId) REFERENCES Service(id)
+);
+
+-- Create Appointment_Service table (junction table)
+CREATE TABLE Appointment_Combo (
+    AppointmentId INT,
+    ComboId INT,
+    PRIMARY KEY (AppointmentId, ComboId),
+    FOREIGN KEY (AppointmentId) REFERENCES Appointment(id),
+    FOREIGN KEY (ComboId) REFERENCES Combo(id)
 );
 
 -- Create Reviews table
