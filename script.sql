@@ -489,6 +489,7 @@ CREATE TABLE Invoice_Service (
     InvoiceId INT,
     ServiceId INT,
 	Quantity INT,
+	Price DECIMAL(18, 0) DEFAULT 0,
     PRIMARY KEY (InvoiceId, ServiceId),
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (ServiceId) REFERENCES [Service](id)
@@ -507,6 +508,7 @@ CREATE TABLE Invoice_Combo (
     InvoiceId INT,
     ComboId INT,
 	Quantity INT,
+	Price DECIMAL(18, 0) DEFAULT 0,
     PRIMARY KEY (InvoiceId, ComboId),
     FOREIGN KEY (InvoiceId) REFERENCES Invoice(id),
     FOREIGN KEY (ComboId) REFERENCES [Combo](id)
