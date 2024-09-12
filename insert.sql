@@ -1,4 +1,7 @@
-﻿INSERT INTO [User] (FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
+﻿USE SenShineSpa;
+GO
+
+INSERT INTO [User] (FirstName, MidName, LastName, Phone, BirthDate, [Status], StatusWorking, SpaId, province_code, district_code, ward_code)
 VALUES 
 (N'Nguyễn', N'Văn', N'An', '0901123456', '1985-05-15', 'ACTIVE', 'AVAILABLE', 1, '001', '002', '003'),
 (N'Trần', N'Thị', N'Bích', '0902234567', '1990-09-20', 'ACTIVE', 'AVAILABLE', 1, '004', '005', '006'),
