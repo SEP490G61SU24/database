@@ -402,7 +402,7 @@ CREATE TABLE Appointment (
     EmployeeId INT NOT NULL,
     BedId INT NOT NULL,
     SlotId  INT NOT NULL,
-	InvoiceId INT NULL,
+    InvoiceId INT NULL,
     AppointmentDate DATETIME NOT NULL,
     Status NVARCHAR(50) DEFAULT 'PENDING',
     FOREIGN KEY (CustomerId) REFERENCES [User](id),
