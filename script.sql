@@ -69,7 +69,13 @@ VALUES
 ('senshineman', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Trương', N'Thế', N'An', '0987654322', '2005-05-11', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
 ('senshinerec', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Nguyễn', N'Trọng', N'Bảnh', '0987654323', '2005-05-11', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
 ('senshinesta', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Hồ', N'Như', N'Ý', '0987654324', '2005-05-11', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
-('senshinecus', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Nguyễn', N'Thanh', N'Lãm', '0987654325', '2005-05-11', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043');
+('senshinecus', '$2a$11$YOvwascTMh/wxlbvytTfq.Y/mrVJahJGlnGHuPQMf4FTdf3VaqvuS', N'Nguyễn', N'Thanh', N'Lãm', '0987654325', '2005-05-11', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
+('akira', '$2a$11$A9bcsaKdmQ/weqrLBVurF.wrqgGGalMLnLJKGHM4FTftg9QyzVbviJ', N'Nguyễn', N'Trần', N'An', '0987654325', '1995-04-05', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
+('miyazaki', '$2a$11$FDskJhNvcps/KkRBFgfLHJQ.jnVcPOMlPLvGtftg9FffFGqspt9mj', N'Phạm', N'Ngọc', N'Tú', '0987654326', '1993-03-15', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
+('naruto', '$2a$11$KjgmKLpbDWicpwTQHVvyKL.MrtWRUPOaBHfTFTFffDgtBVlmLSghyV', N'Trần', N'Hoàng', N'Linh', '0987654327', '1998-07-23', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
+('sasuke', '$2a$11$JsdhUJCVncwaBWHPHygNDL.OflHggSFFTRbhgjKLbfyRFTlggDntpA', N'Lê', N'Phúc', N'Hưng', '0987654328', '2000-10-01', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
+('itachi', '$2a$11$KsvbLJFLbfycwqDjkTNLQR.sdfdfkGHJKQfgLNJHbvNDFGtVVRtyT', N'Võ', N'Hoàng', N'Yến', '0987654329', '2002-09-19', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043'),
+('konan', '$2a$11$DsffLkdcJNL.wqdXLlPQGNN.ugHGGlsJKlgfvNBBFTjfsSTvsmdpfg', N'Doãn', N'Thị', N'Hoa', '0987654330', '2001-12-12', 'ACTIVE', 'AVAILABLE', 1, '01', '002', '00043');
 
 -- Create Role table
 CREATE TABLE [Role] (
@@ -100,9 +106,15 @@ GO
 INSERT INTO User_Role (UserId, RoleId) VALUES
 (1, 1),
 (2, 2),
-(3, 4),
+(3, 3),
 (4, 4),
-(5, 5);
+(5, 5),
+(6, 4),
+(7, 4),
+(8, 4),
+(9, 4),
+(10, 4),
+(11, 4);
 
 CREATE TABLE [Rule] (
     id INT IDENTITY(1,1) PRIMARY KEY,
@@ -226,7 +238,7 @@ VALUES
 (98, '/branch/detailbranch', N'Chi tiết chi nhánh', NULL, 0, 102),
 (99, '/card/usecard', N'Dùng thẻ', NULL, 0, 103),
 (16, '/invoice/CheckPayment', N'Kiểm tra chuyển khoản', NULL, 0, 104),
-(100, '/report/ReportRevenue', N'Thống kê', 'fa fa-bar-chart-o', 1, 105),
+(2, '/report/ReportRevenue', N'Thống kê', 'fa fa-bar-chart-o', 1, 105),
 (5, '/Appointment/CreateAppointmentContent', N'Tạo cuộc hẹn popup', 'NULL', 0, 106),
 (5, '/Appointment/UpdateAppointmentContent', N'Cập nhật cuộc hẹn popup', 'NULL', 0, 107),
 (5, '/Appointment/UpdateAppointment', N'Cập nhật cuộc hẹn', 'NULL', 0, 108),
