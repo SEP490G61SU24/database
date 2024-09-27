@@ -261,3 +261,63 @@ VALUES
 (3, N'Khuyến Mãi Ngày Phụ Nữ', '2024-03-01', '2024-03-08', N'Giảm giá 25% cho các dịch vụ spa nhân dịp Ngày Quốc Tế Phụ Nữ.', 25.00),
 (4, N'Ưu Đãi Mùa Xuân', '2024-03-15', '2024-04-15', N'Giảm giá 15% cho tất cả các dịch vụ spa trong mùa xuân.', 15.00),
 (4, N'Khuyến Mãi Sinh Nhật Spa', '2024-08-01', '2024-08-31', N'Giảm giá 20% cho các dịch vụ spa nhân dịp sinh nhật của spa.', 20.00);
+
+-- Insert data into UserSlot for UserId 3 to 11, for all slots on 28th, 29th, and 30th of September 2024 with Status 'available'
+DECLARE @SlotDateStart DATETIME = '2024-09-28';
+DECLARE @SlotDateEnd DATETIME = '2024-09-30';
+
+-- UserId 3
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 3, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
+
+-- UserId 4
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 4, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
+
+-- UserId 6
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 6, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
+
+-- UserId 7
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 7, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
+
+-- UserId 8
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 8, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
+
+-- UserId 9
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 9, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
+
+-- UserId 10
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 10, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
+
+-- UserId 11
+INSERT INTO UserSlot (UserId, SlotId, SlotDate, Status)
+SELECT 11, Slot.id, SlotDate, 'available'
+FROM Slot
+CROSS JOIN (SELECT DISTINCT CAST(DateValue AS DATETIME) AS SlotDate
+            FROM (VALUES ('2024-09-28'), ('2024-09-29'), ('2024-09-30')) AS DateTable(DateValue)) AS DateSet;
